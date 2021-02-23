@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/Character">
+        <file alias="NinjaDown">Sprites/Characters/Ninja/NinjaDown.png</file>
+        <file alias="NinjaLeft">Sprites/Characters/Ninja/NinjaLeft.png</file>
+        <file alias="NinjaRight">Sprites/Characters/Ninja/NinjaRight.png</file>
+        <file alias="NinjaUp">Sprites/Characters/Ninja/NinjaUp.png</file>
+    </qresource>
+    <qresource prefix="/Background">
+        <file alias="ForestFloor">Sprites/Background/ForestFloor.png</file>
+    </qresource>
+    <qresource prefix="/Terrain">
+        <file alias="Tree">Sprites/Terrains/Tree.png</file>
+        <file alias="Warp">Sprites/Terrains/Warp.png</file>
+    </qresource>
+</RCC>
