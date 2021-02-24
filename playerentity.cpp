@@ -18,6 +18,10 @@ PlayerEntity::PlayerEntity(double speed, int maxHealth):
     QObject::connect(moveLTimer, SIGNAL(timeout()), this, SLOT(moveLeftSlot()));
     moveRTimer = new QTimer();
     QObject::connect(moveRTimer, SIGNAL(timeout()), this, SLOT(moveRightSlot()));
+
+    collisionTimer = new QTimer();
+    QObject::connect(collisionTimer, SIGNAL(timeout()), this, SLOT(collisionSlot()));
+    collisionTimer->start(10);
 }
 
 void PlayerEntity::keyPressEvent(QKeyEvent *event){
@@ -93,8 +97,11 @@ void PlayerEntity::keyReleaseEvent(QKeyEvent *event){
         }
     }
 }
+void PlayerEntity::collisionSlot(){
+    collision(0);
+}
 
-void PlayerEntity::collisions(int direction){
+void PlayerEntity::collision(int direction){
     QListIterator<QGraphicsItem *> collidings(collidingItems());
 
     while(collidings.hasNext()){
@@ -110,25 +117,29 @@ void PlayerEntity::collisions(int direction){
         if(item->type() == WARPENTITY){
             emit(loadMapSignal(((WarpEntity*)item)->getId()));
         }
+
+        if(item->type() == PATHMONSTERENTITY){
+            qDebug() << "AGROUGROU ! MECHANT !!!";
+        }
     }
 }
 
 void PlayerEntity::moveUpSlot(){
     moveUp();
-    collisions(U);
+    collision(U);
 }
 
 void PlayerEntity::moveDownSlot(){
     moveDown();
-    collisions(D);
+    collision(D);
 }
 
 void PlayerEntity::moveLeftSlot(){
     moveLeft();
-    collisions(L);
+    collision(L);
 }
 
 void PlayerEntity::moveRightSlot(){
     moveRight();
-    collisions(R);
+    collision(R);
 }

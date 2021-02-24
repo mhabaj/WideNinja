@@ -1,6 +1,7 @@
 #include <QPixmap>
 #include "blockentity.h"
 #include "warpentity.h"
+#include "pathmonsterentity.h"
 
 #include "maincontroller.h"
 
@@ -53,6 +54,15 @@ void MainController::loadMapSlot(int id){
             warp->setX(col*PIXELS);
             warp->setY(row*PIXELS);
             scene->addItem(warp);
+        }
+        else if(object[0] == "pathMonster"){
+            PathMonsterEntity *pm = new PathMonsterEntity(object[2].toInt(), object[3].toInt());
+            pm->setPixmap(object[1]);
+            pm->setX(col*PIXELS);
+            pm->setY(row*PIXELS);
+            pm->setPath(object[4]);
+            scene->addItem(pm);
+            pm->start();
         }
 
         col++;

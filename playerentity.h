@@ -15,11 +15,7 @@ private:
     QTimer *moveDTimer;
     QTimer *moveLTimer;
     QTimer *moveRTimer;
-
-    const int L = 1;
-    const int R = 2;
-    const int D = 3;
-    const int U = 4;
+    QTimer *collisionTimer;
 
 signals:
     void loadMapSignal(int id);
@@ -29,10 +25,11 @@ public slots:
     void moveDownSlot();
     void moveLeftSlot();
     void moveRightSlot();
+    void collisionSlot();
 
 public:
     PlayerEntity(double speed, int maxHealth);
-    void collisions(int direction);
+    void collision(int direction);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 

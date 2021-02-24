@@ -14,7 +14,6 @@ public:
     void setMaxHealth(int value);
     int getHealth() const;
     void setHealth(int value);
-    QString type();
 
     int type() const override
     {

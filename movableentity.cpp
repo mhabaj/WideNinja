@@ -16,7 +16,6 @@ void MovableEntity::setDiag(bool value)
 }
 
 void MovableEntity::moveUp(){
-    //if()
     if(diag)
         setPos(x(), y() - speed/2);
     else
