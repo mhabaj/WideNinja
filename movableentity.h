@@ -10,7 +10,7 @@ private:
     bool diag;
 
 public:
-    MovableEntity(double speed);
+    MovableEntity(QString image, int x, int y, double speed);
     void moveUp();
     void moveDown();
     void moveLeft();

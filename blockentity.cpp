@@ -1,6 +1,7 @@
 #include "blockentity.h"
 
-BlockEntity::BlockEntity()
+BlockEntity::BlockEntity(QString image, int x, int y)
+    :Entity(image, x, y)
 {
 
 }

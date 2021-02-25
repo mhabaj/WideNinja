@@ -6,7 +6,7 @@
 class BlockEntity: public Entity
 {
 public:
-    BlockEntity();
+    BlockEntity(QString image, int x, int y);
 
     int type() const override
     {

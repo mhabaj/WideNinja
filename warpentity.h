@@ -9,7 +9,7 @@ private:
     int id;
 
 public:
-    WarpEntity(int id);
+    WarpEntity(QString image, int x, int y, int id);
 
     int getId() const;
     void setId(int value);

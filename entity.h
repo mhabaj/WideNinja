@@ -24,6 +24,8 @@ public:
     const int WARPENTITY = 66005;
     const int PATHMONSTERENTITY = 66006;
 
+    Entity(QString image, int x, int y);
+
     int type() const override
     {
         return ENTITY;

@@ -7,27 +7,23 @@
 #include <QObject>
 
 #include "playerentity.h"
+#include "map.h"
 
 class MainController: public QObject
 {
     Q_OBJECT
 
 public slots:
-    void loadMapSlot(int id);
+    void loadMapSlot(Map *map);
 
 private:
     QGraphicsScene *scene;
     QGraphicsView *view;
-
-    QList<QList<QList<QString>>> map;
 public:
     const int PIXELS = 32;
     const int SIZE = 20;
 
-    MainController(QList<QList<QList<QString>>> map);
-
-    QList<QList<QList<QString> > > getMap() const;
-    void setMap(const QList<QList<QList<QString> > > &value);
+    MainController();
 };
 
 #endif // MAINCONTROLLER_H

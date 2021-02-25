@@ -28,7 +28,7 @@ public slots:
     void collisionSlot();
 
 public:
-    PlayerEntity(double speed, int maxHealth);
+    PlayerEntity(QString image, int x, int y, double speed, int maxHealth);
     void collision(int direction);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);

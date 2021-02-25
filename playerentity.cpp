@@ -5,10 +5,11 @@
 #include "blockentity.h"
 #include "warpentity.h"
 
-PlayerEntity::PlayerEntity(double speed, int maxHealth):
-    LivingEntity(speed, maxHealth)
+PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth):
+    LivingEntity(image, x, y, speed, maxHealth)
 {
-    setPixmap(*new QPixmap(":/Character/NinjaDown"));
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setFocus();
 
     moveUTimer = new QTimer();
     QObject::connect(moveUTimer, SIGNAL(timeout()), this, SLOT(moveUpSlot()));
