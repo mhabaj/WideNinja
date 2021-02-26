@@ -5,35 +5,32 @@
 #include <QGraphicsView>
 #include <QList>
 #include <QObject>
+#include "playerinventory.h"
 
-#include "playerentity.h"
+#include "map.h"
 
 class MainController: public QObject
 {
     Q_OBJECT
 
-public slots:
-    void loadMapSlot(int id);
-    void closing();
-
 private:
     QGraphicsScene *scene;
     QGraphicsView *view;
+    PlayerInventory *inventory;
 
-    QList<QList<QList<QString>>> map;
 public:
+    void loadMap(Map *map);
+    void loadMap(int id);
     const int PIXELS = 32;
     const int SIZE = 20;
-    void saveMap();
-    void loadMap();
-    void loadDefaultMap();
+
+    int currentLevel;
+
     MainController();
 
-    QList<QList<QList<QString> > > getMap() const;
-    void setMap(const QList<QList<QList<QString> > > &value);
-
-    QGraphicsView *getView() const;
-    void setView(QGraphicsView *value);
+    PlayerInventory *getInventory() const;
+    void setInventory(PlayerInventory *value);
+    int getCurrentLevel() const;
 };
 
 #endif // MAINCONTROLLER_H

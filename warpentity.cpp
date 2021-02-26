@@ -1,6 +1,7 @@
 #include "warpentity.h"
 
-WarpEntity::WarpEntity(int ind)
+WarpEntity::WarpEntity(QString image, int x, int y, int ind)
+    :Entity(image, x, y)
 {
     setId(ind);
 }

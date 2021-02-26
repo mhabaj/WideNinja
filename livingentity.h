@@ -9,12 +9,11 @@ private:
     int maxHealth;
     int health;
 public:
-    LivingEntity(double speed, int maxHealth);
+    LivingEntity(QString image, int x, int y, double speed, int maxHealth);
     int getMaxHealth() const;
     void setMaxHealth(int value);
     int getHealth() const;
     void setHealth(int value);
-    QString type();
 
     int type() const override
     {

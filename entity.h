@@ -11,12 +11,21 @@ public:
     const int PIXELS = 32;
     const int SIZE = 20;
 
-    int ENTITY = 66000;
-    int MOVABLEENTITY = 66001;
-    int LIVINGENTITY = 66002;
-    int BLOCKENTITY = 66003;
-    int PLAYERENTITY = 66004;
-    int WARPENTITY = 66005;
+    const int L = 1;
+    const int R = 2;
+    const int D = 3;
+    const int U = 4;
+
+    const int ENTITY = 66000;
+    const int MOVABLEENTITY = 66001;
+    const int LIVINGENTITY = 66002;
+    const int BLOCKENTITY = 66003;
+    const int PLAYERENTITY = 66004;
+    const int WARPENTITY = 66005;
+    const int PATHMONSTERENTITY = 66006;
+    const int PICKABLEENTITY = 66007;
+
+    Entity(QString image, int x, int y);
 
     int type() const override
     {

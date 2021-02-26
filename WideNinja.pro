@@ -21,20 +21,26 @@ SOURCES += \
     livingentity.cpp \
     main.cpp \
     maincontroller.cpp \
-    mapmanager.cpp \
+    map.cpp \
     movableentity.cpp \
+    pathmonsterentity.cpp \
     playerentity.cpp \
-    warpentity.cpp
+    warpentity.cpp \
+    pickableentity.cpp \
+    playerinventory.cpp
 
 HEADERS += \
     blockentity.h \
     entity.h \
     livingentity.h \
     maincontroller.h \
-    mapmanager.h \
+    map.h \
     movableentity.h \
+    pathmonsterentity.h \
     playerentity.h \
-    warpentity.h
+    warpentity.h \
+    pickableentity.h \
+    playerinventory.h
 
 FORMS +=
 
@@ -44,5 +50,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    Map.qrc \
     Sprites.qrc

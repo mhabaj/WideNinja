@@ -1,6 +1,8 @@
 #include "movableentity.h"
 
-MovableEntity::MovableEntity(double speed){
+MovableEntity::MovableEntity(QString image, int x, int y, double speed)
+    :Entity(image, x, y)
+{
     setSpeed(speed);
     diag = false;
 }
