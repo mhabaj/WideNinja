@@ -2,6 +2,7 @@
 #include "blockentity.h"
 #include "warpentity.h"
 #include "pathmonsterentity.h"
+#include "playerentity.h"
 
 #include "maincontroller.h"
 
@@ -13,9 +14,11 @@ MainController::MainController():
     view = new QGraphicsView();
     view->setScene(scene);
     view->show();
+
+    loadMap(0);
 }
 
-void MainController::loadMapSlot(Map *map){
+void MainController::loadMap(Map *map){
     scene->clear();
 
     QList<Entity *> mapList = map->getEntities();
@@ -29,4 +32,26 @@ void MainController::loadMapSlot(Map *map){
     }
 
     view->viewport()->update();
+}
+
+void MainController::loadMap(int id){
+    if(id == 0){
+        Map *m = new Map(":/Background/ForestFloor");
+
+        m->setEntity(new PlayerEntity(":/Character/NinjaRight", 1, 14, 3, 3, this));
+        m->setEntity(new PathMonsterEntity(":/Character/Wolf", 2, 7, 1, 1, "R:4:U:4:L:2:D:2:L:2:D:2"));
+        m->setEntity(new WarpEntity(":/Terrain/Warp", 0, 14, 1));
+        m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 0));
+
+        loadMap(m);
+    }
+    if(id == 1){
+        Map *m = new Map(":/Background/ForestFloor");
+
+        m->setEntity(new PlayerEntity(":/Character/NinjaRight", 18, 14, 3, 3, this));
+        m->setEntity(new WarpEntity(":/Terrain/Warp", 19, 14, 0));
+        m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 1));
+
+        loadMap(m);
+    }
 }

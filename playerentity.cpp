@@ -5,9 +5,11 @@
 #include "blockentity.h"
 #include "warpentity.h"
 
-PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth):
+PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(image, x, y, speed, maxHealth)
 {
+    setMc(value);
+
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
 
@@ -115,14 +117,24 @@ void PlayerEntity::collision(int direction){
             else if(direction == D) moveUp();
         }
 
-        if(item->type() == WARPENTITY){
-            emit(loadMapSignal(((WarpEntity*)item)->getId()));
-        }
-
         if(item->type() == PATHMONSTERENTITY){
             qDebug() << "AGROUGROU ! MECHANT !!!";
         }
+
+        if(item->type() == WARPENTITY){
+            mc->loadMap(((WarpEntity *)item)->getId());
+        }
     }
+}
+
+MainController *PlayerEntity::getMc() const
+{
+    return mc;
+}
+
+void PlayerEntity::setMc(MainController *value)
+{
+    mc = value;
 }
 
 void PlayerEntity::moveUpSlot(){

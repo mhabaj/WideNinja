@@ -5,6 +5,7 @@
 #include <QObject>
 
 #include "livingentity.h"
+#include "maincontroller.h"
 
 class PlayerEntity: public QObject, public LivingEntity
 {
@@ -17,8 +18,7 @@ private:
     QTimer *moveRTimer;
     QTimer *collisionTimer;
 
-signals:
-    void loadMapSignal(int id);
+    MainController *mc;
 
 public slots:
     void moveUpSlot();
@@ -28,7 +28,7 @@ public slots:
     void collisionSlot();
 
 public:
-    PlayerEntity(QString image, int x, int y, double speed, int maxHealth);
+    PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value);
     void collision(int direction);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -37,6 +37,8 @@ public:
     {
         return PLAYERENTITY;
     }
+    MainController *getMc() const;
+    void setMc(MainController *value);
 };
 
 #endif // PLAYERENTITY_H

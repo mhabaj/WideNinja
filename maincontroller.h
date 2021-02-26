@@ -6,20 +6,18 @@
 #include <QList>
 #include <QObject>
 
-#include "playerentity.h"
 #include "map.h"
 
 class MainController: public QObject
 {
     Q_OBJECT
 
-public slots:
-    void loadMapSlot(Map *map);
-
 private:
     QGraphicsScene *scene;
     QGraphicsView *view;
 public:
+    void loadMap(Map *map);
+    void loadMap(int id);
     const int PIXELS = 32;
     const int SIZE = 20;
 
