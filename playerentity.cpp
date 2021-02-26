@@ -4,6 +4,7 @@
 #include <QObject>
 #include "blockentity.h"
 #include "warpentity.h"
+#include "pickableentity.h"
 
 PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(image, x, y, speed, maxHealth)
@@ -117,12 +118,19 @@ void PlayerEntity::collision(int direction){
             else if(direction == D) moveUp();
         }
 
-        if(item->type() == PATHMONSTERENTITY){
+        else if(item->type() == PATHMONSTERENTITY){
             qDebug() << "AGROUGROU ! MECHANT !!!";
         }
 
-        if(item->type() == WARPENTITY){
+        else if(item->type() == WARPENTITY){
             mc->loadMap(((WarpEntity *)item)->getId());
+        }
+
+        else if(item->type() == PICKABLEENTITY)
+        {
+            mc->getInventory()->addValue(((PickableEntity *)item)->getKey());
+            qDebug() << mc->getInventory()->getMap().value("keyForest");
+            delete item;
         }
     }
 }

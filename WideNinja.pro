@@ -25,7 +25,9 @@ SOURCES += \
     movableentity.cpp \
     pathmonsterentity.cpp \
     playerentity.cpp \
-    warpentity.cpp
+    warpentity.cpp \
+    pickableentity.cpp \
+    playerinventory.cpp
 
 HEADERS += \
     blockentity.h \
@@ -36,7 +38,9 @@ HEADERS += \
     movableentity.h \
     pathmonsterentity.h \
     playerentity.h \
-    warpentity.h
+    warpentity.h \
+    pickableentity.h \
+    playerinventory.h
 
 FORMS +=
 

@@ -23,6 +23,7 @@ public:
     const int PLAYERENTITY = 66004;
     const int WARPENTITY = 66005;
     const int PATHMONSTERENTITY = 66006;
+    const int PICKABLEENTITY = 66007;
 
     Entity(QString image, int x, int y);
 

@@ -30,8 +30,8 @@ public slots:
 public:
     PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value);
     void collision(int direction);
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
     int type() const override
     {

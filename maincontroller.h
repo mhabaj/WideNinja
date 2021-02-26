@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QList>
 #include <QObject>
+#include "playerinventory.h"
 
 #include "map.h"
 
@@ -15,6 +16,8 @@ class MainController: public QObject
 private:
     QGraphicsScene *scene;
     QGraphicsView *view;
+    PlayerInventory *inventory;
+
 public:
     void loadMap(Map *map);
     void loadMap(int id);
@@ -22,6 +25,9 @@ public:
     const int SIZE = 20;
 
     MainController();
+
+    PlayerInventory *getInventory() const;
+    void setInventory(PlayerInventory *value);
 };
 
 #endif // MAINCONTROLLER_H

@@ -3,6 +3,7 @@
 #include "warpentity.h"
 #include "pathmonsterentity.h"
 #include "playerentity.h"
+#include "pickableentity.h"
 
 #include "maincontroller.h"
 
@@ -16,7 +17,9 @@ MainController::MainController():
     view->show();
 
     loadMap(0);
+    inventory = new PlayerInventory();
 }
+
 
 void MainController::loadMap(Map *map){
     scene->clear();
@@ -51,7 +54,25 @@ void MainController::loadMap(int id){
         m->setEntity(new PlayerEntity(":/Character/NinjaRight", 18, 14, 3, 3, this));
         m->setEntity(new WarpEntity(":/Terrain/Warp", 19, 14, 0));
         m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 1));
+        m->setEntity(new PickableEntity(":/Item/Key",5,5,"keyForest"));
 
         loadMap(m);
     }
 }
+
+
+PlayerInventory *MainController::getInventory() const
+{
+    return inventory;
+}
+
+void MainController::setInventory(PlayerInventory *value)
+{
+    inventory = value;
+}
+
+
+
+
+
+
