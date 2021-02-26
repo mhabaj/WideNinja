@@ -2,46 +2,43 @@
 
 #include <QPropertyAnimation>
 
-PathMonsterEntity::PathMonsterEntity(double speed, int maxHealth):
-    LivingEntity(speed, maxHealth)
+PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, int maxHealth, QString path):
+    LivingEntity(image, x, y, speed, maxHealth)
 {
     group = new QSequentialAnimationGroup();
-}
 
-void PathMonsterEntity::setPath(QString path)
-{
-    int tempX = x();
-    int tempY = y();
+    int tempX = x*PIXELS;
+    int tempY = y*PIXELS;
 
     QListIterator<QString> iterator(path.split(":"));
 
     while(iterator.hasNext()){
-        int direction = iterator.next().toInt();
+        QString direction = iterator.next();
 
         int distance = iterator.next().toInt();
 
-        if(direction == U){
+        if(direction == "U"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
             animation->setDuration(800*distance);
             animation->setEndValue(tempY-distance*PIXELS);
             group->addAnimation(animation);
             tempY -= distance*PIXELS;
         }
-        else if(direction == D){
+        else if(direction == "D"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
             animation->setDuration(800*distance);
             animation->setEndValue(tempY+distance*PIXELS);
             group->addAnimation(animation);
             tempY += distance*PIXELS;
         }
-        else if(direction == L){
+        else if(direction == "L"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
             animation->setDuration(800*distance);
             animation->setEndValue(tempX-distance*PIXELS);
             group->addAnimation(animation);
             tempX -= distance*PIXELS;
         }
-        else if(direction == R){
+        else if(direction == "R"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
             animation->setDuration(800*distance);
             animation->setEndValue(tempX+distance*PIXELS);
@@ -51,8 +48,10 @@ void PathMonsterEntity::setPath(QString path)
     }
 
     group->setLoopCount(-1);
+    group->start();
 }
 
-void PathMonsterEntity::start(){
-    group->start();
+PathMonsterEntity::~PathMonsterEntity(){
+    group->stop();
+    delete group;
 }

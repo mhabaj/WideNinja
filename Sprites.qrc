@@ -13,4 +13,8 @@
         <file alias="Tree">Sprites/Terrains/Tree.png</file>
         <file alias="Warp">Sprites/Terrains/Warp.png</file>
     </qresource>
+    <qresource prefix="/Item">
+        <file alias="Key">Sprites/Items/Key.png</file>
+    </qresource>
+    <qresource prefix="/"/>
 </RCC>

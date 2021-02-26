@@ -2,85 +2,77 @@
 #include "blockentity.h"
 #include "warpentity.h"
 #include "pathmonsterentity.h"
+#include "playerentity.h"
+#include "pickableentity.h"
 
 #include "maincontroller.h"
 
-MainController::MainController(QList<QList<QList<QString>>> map):
+MainController::MainController():
     QObject()
 {
-    setMap(map);
-
     scene = new QGraphicsScene(0,0,640,640);
 
     view = new QGraphicsView();
     view->setScene(scene);
     view->show();
+
+    loadMap(0);
+    inventory = new PlayerInventory();
 }
 
-void MainController::loadMapSlot(int id){
+
+void MainController::loadMap(Map *map){
     scene->clear();
 
-    QListIterator<QList<QString>> iterator(map[id]);
+    QList<Entity *> mapList = map->getEntities();
 
-    scene->setBackgroundBrush(QImage(iterator.next()[0]));
+    QListIterator<Entity *> iterator(mapList);
 
-    int col = 0;
-    int row = 0;
+    scene->setBackgroundBrush(QImage(map->getBackground()));
 
     while(iterator.hasNext()){
-
-        QList<QString> object = iterator.next();
-
-        if(object[0] == "wall"){
-            BlockEntity *wall = new BlockEntity();
-            wall->setPixmap(object[1]);
-            wall->setX(col*PIXELS);
-            wall->setY(row*PIXELS);
-            scene->addItem(wall);
-        }
-        else if(object[0] == "player"){
-            PlayerEntity *player = new PlayerEntity(3, 3);
-            QObject::connect(player, SIGNAL(loadMapSignal(int)), this, SLOT(loadMapSlot(int)));
-            player->setFlag(QGraphicsItem::ItemIsFocusable);
-            player->setFocus();
-            player->setPixmap(*new QPixmap(":/Character/NinjaDown"));
-            player->setX(col*PIXELS);
-            player->setY(row*PIXELS);
-            scene->addItem(player);
-        }
-        else if(object[0] == "warp"){
-            WarpEntity *warp = new WarpEntity(object[1].toInt());
-            warp->setPixmap(object[2]);
-            warp->setX(col*PIXELS);
-            warp->setY(row*PIXELS);
-            scene->addItem(warp);
-        }
-        else if(object[0] == "pathMonster"){
-            PathMonsterEntity *pm = new PathMonsterEntity(object[2].toInt(), object[3].toInt());
-            pm->setPixmap(object[1]);
-            pm->setX(col*PIXELS);
-            pm->setY(row*PIXELS);
-            pm->setPath(object[4]);
-            scene->addItem(pm);
-            pm->start();
-        }
-
-        col++;
-        if(col == SIZE){
-            col = 0;
-            row++;
-        }
+        scene->addItem(iterator.next());
     }
 
     view->viewport()->update();
 }
 
-QList<QList<QList<QString> > > MainController::getMap() const
-{
-    return map;
+void MainController::loadMap(int id){
+    if(id == 0){
+        Map *m = new Map(":/Background/ForestFloor");
+
+        m->setEntity(new PlayerEntity(":/Character/NinjaRight", 1, 14, 3, 3, this));
+        m->setEntity(new PathMonsterEntity(":/Character/Wolf", 2, 7, 1, 1, "R:4:U:4:L:2:D:2:L:2:D:2"));
+        m->setEntity(new WarpEntity(":/Terrain/Warp", 0, 14, 1));
+        m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 0));
+
+        loadMap(m);
+    }
+    if(id == 1){
+        Map *m = new Map(":/Background/ForestFloor");
+
+        m->setEntity(new PlayerEntity(":/Character/NinjaRight", 18, 14, 3, 3, this));
+        m->setEntity(new WarpEntity(":/Terrain/Warp", 19, 14, 0));
+        m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 1));
+        m->setEntity(new PickableEntity(":/Item/Key",5,5,"keyForest"));
+
+        loadMap(m);
+    }
 }
 
-void MainController::setMap(const QList<QList<QList<QString> > > &value)
+
+PlayerInventory *MainController::getInventory() const
 {
-    map = value;
+    return inventory;
 }
+
+void MainController::setInventory(PlayerInventory *value)
+{
+    inventory = value;
+}
+
+
+
+
+
+

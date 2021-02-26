@@ -4,7 +4,7 @@
 #include "livingentity.h"
 #include <QSequentialAnimationGroup>
 
-class PathMonsterEntity:public QObject, public LivingEntity
+class PathMonsterEntity: public QObject, public LivingEntity
 {
     Q_OBJECT
     Q_PROPERTY(int x READ x WRITE setX)
@@ -12,9 +12,8 @@ class PathMonsterEntity:public QObject, public LivingEntity
 private:
     QSequentialAnimationGroup *group;
 public:
-    PathMonsterEntity(double speed, int maxHealth);
-    void setPath(QString path);
-    void start();
+    PathMonsterEntity(QString image, int x, int y, double speed, int maxHealth, QString path);
+    ~PathMonsterEntity();
 
     int type() const override
     {

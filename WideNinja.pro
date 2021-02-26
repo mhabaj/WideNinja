@@ -21,9 +21,12 @@ SOURCES += \
     livingentity.cpp \
     main.cpp \
     maincontroller.cpp \
+    map.cpp \
     movableentity.cpp \
     pathmonsterentity.cpp \
+    pickableentity.cpp \
     playerentity.cpp \
+    playerinventory.cpp \
     warpentity.cpp
 
 HEADERS += \
@@ -31,9 +34,12 @@ HEADERS += \
     entity.h \
     livingentity.h \
     maincontroller.h \
+    map.h \
     movableentity.h \
     pathmonsterentity.h \
+    pickableentity.h \
     playerentity.h \
+    playerinventory.h \
     warpentity.h
 
 FORMS +=
@@ -45,3 +51,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Sprites.qrc
+
+DISTFILES +=
