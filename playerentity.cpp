@@ -119,17 +119,22 @@ void PlayerEntity::collision(int direction){
         }
 
         else if(item->type() == PATHMONSTERENTITY){
-            qDebug() << "AGROUGROU ! MECHANT !!!";
+            mc->getInventory()->clearTemp();
+            mc->getInventory()->show();
+            mc->loadMap(mc->getCurrentLevel());
         }
 
         else if(item->type() == WARPENTITY){
+            mc->getInventory()->pushTemp();
+            mc->getInventory()->clearTemp();
+            mc->getInventory()->show();
             mc->loadMap(((WarpEntity *)item)->getId());
         }
 
         else if(item->type() == PICKABLEENTITY)
         {
-            mc->getInventory()->addValue(((PickableEntity *)item)->getKey());
-            qDebug() << mc->getInventory()->getMap().value("keyForest");
+            mc->getInventory()->addTempValue(((PickableEntity *)item)->getKey());
+            mc->getInventory()->show();
             delete item;
         }
     }

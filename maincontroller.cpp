@@ -17,6 +17,7 @@ MainController::MainController():
     view->show();
 
     loadMap(0);
+    currentLevel = 0;
     inventory = new PlayerInventory();
 }
 
@@ -38,11 +39,12 @@ void MainController::loadMap(Map *map){
 }
 
 void MainController::loadMap(int id){
+    currentLevel = id;
+
     if(id == 0){
         Map *m = new Map(":/Background/ForestFloor");
 
         m->setEntity(new PlayerEntity(":/Character/NinjaRight", 1, 14, 3, 3, this));
-        m->setEntity(new PathMonsterEntity(":/Character/Wolf", 2, 7, 1, 1, "R:4:U:4:L:2:D:2:L:2:D:2"));
         m->setEntity(new WarpEntity(":/Terrain/Warp", 0, 14, 1));
         m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 0));
 
@@ -52,12 +54,18 @@ void MainController::loadMap(int id){
         Map *m = new Map(":/Background/ForestFloor");
 
         m->setEntity(new PlayerEntity(":/Character/NinjaRight", 18, 14, 3, 3, this));
+        m->setEntity(new PathMonsterEntity(":/Character/Wolf", 2, 7, 1, 1, "R:4:U:4:L:2:D:2:L:2:D:2"));
         m->setEntity(new WarpEntity(":/Terrain/Warp", 19, 14, 0));
         m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 1));
         m->setEntity(new PickableEntity(":/Item/Key",5,5,"keyForest"));
 
         loadMap(m);
     }
+}
+
+int MainController::getCurrentLevel() const
+{
+    return currentLevel;
 }
 
 

@@ -24,10 +24,13 @@ public:
     const int PIXELS = 32;
     const int SIZE = 20;
 
+    int currentLevel;
+
     MainController();
 
     PlayerInventory *getInventory() const;
     void setInventory(PlayerInventory *value);
+    int getCurrentLevel() const;
 };
 
 #endif // MAINCONTROLLER_H
