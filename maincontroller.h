@@ -14,6 +14,7 @@ class MainController: public QObject
 
 public slots:
     void loadMapSlot(int id);
+    void closing();
 
 private:
     QGraphicsScene *scene;
@@ -23,11 +24,16 @@ private:
 public:
     const int PIXELS = 32;
     const int SIZE = 20;
-
-    MainController(QList<QList<QList<QString>>> map);
+    void saveMap();
+    void loadMap();
+    void loadDefaultMap();
+    MainController();
 
     QList<QList<QList<QString> > > getMap() const;
     void setMap(const QList<QList<QList<QString> > > &value);
+
+    QGraphicsView *getView() const;
+    void setView(QGraphicsView *value);
 };
 
 #endif // MAINCONTROLLER_H

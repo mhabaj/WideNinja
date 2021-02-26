@@ -21,6 +21,7 @@ SOURCES += \
     livingentity.cpp \
     main.cpp \
     maincontroller.cpp \
+    mapmanager.cpp \
     movableentity.cpp \
     playerentity.cpp \
     warpentity.cpp
@@ -30,6 +31,7 @@ HEADERS += \
     entity.h \
     livingentity.h \
     maincontroller.h \
+    mapmanager.h \
     movableentity.h \
     playerentity.h \
     warpentity.h
@@ -42,4 +44,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    Map.qrc \
     Sprites.qrc

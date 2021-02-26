@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Map">
+        <file alias="lvlA">Map/file.dat</file>
+    </qresource>
+</RCC>

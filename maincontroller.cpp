@@ -1,19 +1,23 @@
 #include <QPixmap>
 #include "blockentity.h"
 #include "warpentity.h"
-
+#include <QFile>
 #include "maincontroller.h"
 
-MainController::MainController(QList<QList<QList<QString>>> map):
+MainController::MainController():
     QObject()
 {
-    setMap(map);
+    loadMap();
+
 
     scene = new QGraphicsScene(0,0,640,640);
 
     view = new QGraphicsView();
     view->setScene(scene);
     view->show();
+    loadMapSlot(0);
+
+
 }
 
 void MainController::loadMapSlot(int id){
@@ -63,6 +67,46 @@ void MainController::loadMapSlot(int id){
     }
 
     view->viewport()->update();
+}
+
+void MainController::closing()
+{
+    saveMap();
+}
+
+QGraphicsView *MainController::getView() const
+{
+    return view;
+}
+
+void MainController::setView(QGraphicsView *value)
+{
+    view = value;
+}
+
+void MainController::saveMap()
+{
+
+    QFile file(":/Map/lvlA");
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    out << map;
+    qDebug() << map;
+
+    qDebug()<<"SAVE DE LA MAP:----------------------------------------------------------------------------------\n";
+}
+
+void MainController::loadMap()
+{
+
+    QFile file(":/Map/lvlA");
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);    // read the data serialized from the file
+    in >> map;           // extract "the answer is" and 42
+    qDebug() << map;
+    qDebug()<<"LOAD MAP------------------------------------------------------------------------------------------------\n";
+
+
 }
 
 QList<QList<QList<QString> > > MainController::getMap() const
