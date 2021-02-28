@@ -19,28 +19,28 @@ PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, 
 
         if(direction == "U"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
-            animation->setDuration(800*distance);
+            animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempY-distance*PIXELS);
             group->addAnimation(animation);
             tempY -= distance*PIXELS;
         }
         else if(direction == "D"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
-            animation->setDuration(800*distance);
+            animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempY+distance*PIXELS);
             group->addAnimation(animation);
             tempY += distance*PIXELS;
         }
         else if(direction == "L"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
-            animation->setDuration(800*distance);
+            animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempX-distance*PIXELS);
             group->addAnimation(animation);
             tempX -= distance*PIXELS;
         }
         else if(direction == "R"){
             QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
-            animation->setDuration(800*distance);
+            animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempX+distance*PIXELS);
             group->addAnimation(animation);
             tempX += distance*PIXELS;
