@@ -7,8 +7,6 @@
 #include <QObject>
 #include "playerinventory.h"
 
-#include "map.h"
-
 class MainController: public QObject
 {
     Q_OBJECT
@@ -21,7 +19,7 @@ private:
     int startX, startY;
 
 public:
-    void loadMap(Map *map, int dx, int dy);
+    void loadMap(QList<QList<QString>> map, int dx, int dy);
     void loadMap(int id, int dx, int dy);
     const int PIXELS = 32;
     const int SIZE = 20;
