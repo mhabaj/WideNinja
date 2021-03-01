@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     blockentity.cpp \
     entity.cpp \
+    filemanager.cpp \
     livingentity.cpp \
     main.cpp \
     maincontroller.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 HEADERS += \
     blockentity.h \
     entity.h \
+    filemanager.h \
     livingentity.h \
     maincontroller.h \
     map.h \

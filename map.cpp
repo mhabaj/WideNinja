@@ -5,6 +5,11 @@ Map::Map(QString bg)
     setBackground(bg);
 }
 
+Map::Map()
+{
+
+}
+
 QList<Entity *> Map::getEntities()
 {
     return entities;
@@ -34,3 +39,4 @@ void Map::setBackground(QString &value)
 {
     background = value;
 }
+

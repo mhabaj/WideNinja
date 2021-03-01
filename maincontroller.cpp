@@ -4,7 +4,7 @@
 #include "pathmonsterentity.h"
 #include "playerentity.h"
 #include "pickableentity.h"
-
+#include "filemanager.h"
 #include "maincontroller.h"
 
 MainController::MainController():
@@ -19,6 +19,11 @@ MainController::MainController():
     loadMap(0);
     currentLevel = 0;
     inventory = new PlayerInventory();
+
+
+
+
+
 }
 
 

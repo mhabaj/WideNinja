@@ -2,7 +2,6 @@
 #define MAP_H
 
 #include "entity.h"
-
 class Map
 {
 private:
@@ -11,12 +10,14 @@ private:
     QString background;
 public:
     Map(QString bg);
-    QList<Entity *> getEntities() ;
+    Map();
+    QList<Entity *> getEntities();
     void setEntities(QList<Entity *> &value);
     Entity* getEntity(int ind) ;
     void setEntity(Entity *e);
     QString getBackground() ;
     void setBackground(QString &value);
+
 };
 
 #endif // MAP_H
