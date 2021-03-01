@@ -22,7 +22,6 @@ SOURCES += \
     livingentity.cpp \
     main.cpp \
     maincontroller.cpp \
-    map.cpp \
     movableentity.cpp \
     pathmonsterentity.cpp \
     playerentity.cpp \
@@ -36,7 +35,6 @@ HEADERS += \
     filemanager.h \
     livingentity.h \
     maincontroller.h \
-    map.h \
     movableentity.h \
     pathmonsterentity.h \
     playerentity.h \

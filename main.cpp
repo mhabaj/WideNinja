@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "filemanager.h"
+
 #include "maincontroller.h"
 
 int main(int argc, char *argv[])

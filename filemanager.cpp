@@ -2,77 +2,39 @@
 
 FileManager::FileManager()
 {
-}
-
-void FileManager::scanFileSysteme()
-{
-
-
-    QDirIterator iteratorRegular(basicFilePath, {"*.map"}, QDir::Files);
-    int regularFileNameitr = 0;
-    while (iteratorRegular.hasNext()) {
-        QFile regularfile(iteratorRegular.next());
-        QStringList regfilename = regularfile.fileName().split(".");
-        if (regfilename.count()==2
-                && regfilename[0].toInt() == regularFileNameitr
-                && regfilename[1] == "map" ){
-            if ( regularfile.open( QIODevice::ReadOnly ) ){
-                qDebug() << "detected:" << regularfile.fileName() << "\n";
-                defaultMapFiles.append(&regularfile);
-                regularFileNameitr++;
-            }
-        }
-    }
-    qDebug()<< "Detected "<<regularFileNameitr<<"Regular Map Files"<<"\n";
-
 
 }
-QDataStream &operator>>(QDataStream &in, PlayerInventory player)
-{
-    QMap<QString, int> inventory;
-    QMap<QString, int> tempInventory;
-    int currentLocation;
 
-    in >> inventory >> tempInventory>>currentLocation ;
-    player.setInventory(inventory);
-    player.setTempInventory(tempInventory);
-    player.setCurrentLocation(currentLocation);
-    return in;
+QList<QList<QString>> FileManager::loadDefaultMap(int mapNumber)
+{
+    qDebug()<<"LOAD DEFAULT MAP STARTED------------------------------------------------------------------------------------------------\n";
+    QList<QList<QString>> map;
+    QString validUrl = defaultMapFolderPath + QString::number(mapNumber).append(".map");
+    QFile file(validUrl);
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    in >> map;
+    qDebug() << map;
+    qDebug()<<"LOAD DEFAULT MAP FINISHED------------------------------------------------------------------------------------------------\n";
+    return map;
 }
 
-QDataStream &operator<<(QDataStream &out, PlayerInventory player)
+void FileManager::saveDefaultMap(QList<QList<QString> > mapNum, int mapNumber)
 {
-
-    out << player.getInventory() << player.getTempInventory()<<player.getCurrentLocation();
-
-    return out;
+    qDebug()<<"SAVE DEFAULT MAP STARTED------------------------------------------------------------------------------------------------\n";
+    QString validUrl = defaultMapFolderPath + QString::number(mapNumber).append(".map");
+    QFile file(validUrl);
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    out << mapNum;
+    qDebug()<<"SAVE DEFAULT MAP FINISHED------------------------------------------------------------------------------------------------\n";
 }
-void FileManager::loadPlayerProfil(PlayerInventory* playerToLoad)
-{
 
+void FileManager::saveCustomMap(QList<QList<QString> > mapNum)
+{
     QFile file(customPlayerSaveFilePath);
-
-    if(file.exists() && file.size() != 0){
-        file.open(QIODevice::ReadWrite);
-        QDataStream in(&file);    // read the data serialized from the file
-        in >> *playerToLoad;
-    }
-
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    out << mapNum;
+    qDebug() << mapNum<< "<<<<CUSTOME MAP<<<<<"<<"\n";
 }
-
-void FileManager::savePlayerProfil(PlayerInventory* playerToSave)
-{
-
-    QFile file(customPlayerSaveFilePath);
-
-    if(file.exists()){
-
-        file.open(QIODevice::ReadWrite);
-        QDataStream out(&file);    // read the data serialized from the file
-        out << playerToSave;           // write in file
-    }
-
-}
-
-
-

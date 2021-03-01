@@ -1,22 +1,12 @@
 #include "playerinventory.h"
 #include <QDebug>
 
-int PlayerInventory::getCurrentLocation() const
-{
-    return currentLocation;
-}
-
-void PlayerInventory::setCurrentLocation(qint32 value)
-{
-    currentLocation = value;
-}
-
 PlayerInventory::PlayerInventory()
 {
     inventory.insert("keyForest",0);
     inventory.insert("katana",0);
     inventory.insert("shuriken",0);
-    
+
     tempInventory.insert("keyForest",0);
     tempInventory.insert("katana",0);
     tempInventory.insert("shuriken",0);
@@ -53,7 +43,7 @@ QMap<QString, int> PlayerInventory::getInventory() const
     return inventory;
 }
 
-void PlayerInventory::setInventory(const QMap<QString, qint32> &value)
+void PlayerInventory::setInventory(const QMap<QString, int> &value)
 {
     inventory = value;
 }
@@ -63,14 +53,14 @@ QMap<QString, int> PlayerInventory::getTempInventory() const
     return tempInventory;
 }
 
-void PlayerInventory::setTempInventory(const QMap<QString, qint32> &value)
+void PlayerInventory::setTempInventory(const QMap<QString, int> &value)
 {
     tempInventory = value;
 }
 
 void PlayerInventory::pushTemp()
 {
-    QMapIterator<QString, qint32> i(tempInventory);
+    QMapIterator<QString, int> i(tempInventory);
 
     while(i.hasNext()){
         i.next();
@@ -80,7 +70,7 @@ void PlayerInventory::pushTemp()
 
 void PlayerInventory::clearTemp()
 {
-    QMapIterator<QString, qint32> i(tempInventory);
+    QMapIterator<QString, int> i(tempInventory);
 
     while(i.hasNext()){
         i.next();
@@ -90,7 +80,7 @@ void PlayerInventory::clearTemp()
 
 void PlayerInventory::show()
 {
-    QMapIterator<QString, qint32> it(tempInventory);
+    QMapIterator<QString, int> it(tempInventory);
 
     qDebug() << "Temp:";
 
@@ -99,7 +89,7 @@ void PlayerInventory::show()
         qDebug() << it.key() << ": " << it.value();
     }
 
-    QMapIterator<QString, qint32> i(inventory);
+    QMapIterator<QString, int> i(inventory);
 
     qDebug() << "Normal:";
 
@@ -107,7 +97,4 @@ void PlayerInventory::show()
         i.next();
         qDebug() << i.key() << ": " << i.value();
     }
-
-
 }
-

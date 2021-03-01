@@ -9,6 +9,8 @@
 PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(image, x, y, speed, maxHealth)
 {
+    isDead = false;
+
     setMc(value);
 
     setFlag(QGraphicsItem::ItemIsFocusable);
@@ -29,7 +31,7 @@ PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHea
 }
 
 void PlayerEntity::keyPressEvent(QKeyEvent *event){
-    if(!event->isAutoRepeat()){
+    if(!event->isAutoRepeat() && !isDead){
         if(event->key() == Qt::Key_Left)
         {
             if(!moveLTimer->isActive() && !moveRTimer->isActive()){
@@ -70,7 +72,7 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
 }
 
 void PlayerEntity::keyReleaseEvent(QKeyEvent *event){
-    if(!event->isAutoRepeat()){
+    if(!event->isAutoRepeat() && !isDead){
         if(event->key() == Qt::Key_Left)
         {
             if(moveLTimer->isActive()){
@@ -119,22 +121,26 @@ void PlayerEntity::collision(int direction){
         }
 
         else if(item->type() == PATHMONSTERENTITY){
-            mc->getInventory()->clearTemp();
-            mc->getInventory()->show();
-            mc->loadMap(mc->getCurrentLevel());
+            isDead = true;
+
+            if(moveLTimer->isActive()) moveLTimer->stop();
+            if(moveRTimer->isActive()) moveRTimer->stop();
+            if(moveUTimer->isActive()) moveUTimer->stop();
+            if(moveDTimer->isActive()) moveDTimer->stop();
+
+            setPixmap(*new QPixmap(":/Character/NinjaDead"));
+            QTimer::singleShot(1500, this, SLOT(deathSlot()));
         }
 
         else if(item->type() == WARPENTITY){
             mc->getInventory()->pushTemp();
             mc->getInventory()->clearTemp();
-            mc->getInventory()->show();
-            mc->loadMap(((WarpEntity *)item)->getId());
+            mc->loadMap(((WarpEntity *)item)->getId(), ((WarpEntity *)item)->getDx(), ((WarpEntity *)item)->getDy());
         }
 
         else if(item->type() == PICKABLEENTITY)
         {
             mc->getInventory()->addTempValue(((PickableEntity *)item)->getKey());
-            mc->getInventory()->show();
             delete item;
         }
     }
@@ -168,4 +174,9 @@ void PlayerEntity::moveLeftSlot(){
 void PlayerEntity::moveRightSlot(){
     moveRight();
     collision(R);
+}
+
+void PlayerEntity::deathSlot(){
+    mc->getInventory()->clearTemp();
+    mc->loadMap(mc->getCurrentLevel(), mc->getStartX(), mc->getStartY());
 }

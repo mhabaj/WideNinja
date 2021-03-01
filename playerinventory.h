@@ -2,31 +2,27 @@
 #define PLAYERINVENTORY_H
 
 #include <QMap>
-#include <QDataStream>
+
 class PlayerInventory
 {
 private :
-    QMap<QString, qint32> inventory;
-    QMap<QString, qint32> tempInventory;
-    qint32 currentLocation;
+    QMap<QString, int> inventory;
+    QMap<QString, int> tempInventory;
 public:
     PlayerInventory();
 
     QMap<QString, int> getInventory() const;
-    void setInventory(const QMap<QString, qint32> &value);
+    void setInventory(const QMap<QString, int> &value);
     void addValue(QString key);
     void substractValue(QString key);
 
     QMap<QString, int> getTempInventory() const;
-    void setTempInventory(const QMap<QString, qint32> &value);
+    void setTempInventory(const QMap<QString, int> &value);
     void addTempValue(QString key);
     void substractTempValue(QString key);
     void pushTemp();
     void clearTemp();
     void show();
-    int getCurrentLocation() const;
-    void setCurrentLocation(int value);
-
 };
 
 #endif // PLAYERINVENTORY_H

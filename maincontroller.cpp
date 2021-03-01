@@ -1,10 +1,11 @@
 #include <QPixmap>
+
 #include "blockentity.h"
 #include "warpentity.h"
 #include "pathmonsterentity.h"
 #include "playerentity.h"
 #include "pickableentity.h"
-#include "filemanager.h"
+
 #include "maincontroller.h"
 
 MainController::MainController():
@@ -13,58 +14,73 @@ MainController::MainController():
     scene = new QGraphicsScene(0,0,640,640);
 
     view = new QGraphicsView();
+    fm = new FileManager();
     view->setScene(scene);
     view->show();
 
-    loadMap(0);
-    currentLevel = 0;
+    loadMap(1, 10, 18);
+    currentLevel = 1;
     inventory = new PlayerInventory();
-
-
-
-
-
 }
 
+void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
+    startX = dx;
+    startY = dy;
 
-void MainController::loadMap(Map *map){
     scene->clear();
 
-    QList<Entity *> mapList = map->getEntities();
+    scene->addItem(new PlayerEntity(":/Character/NinjaRight", dx, dy, 3, 3, this));
 
-    QListIterator<Entity *> iterator(mapList);
+    QListIterator<QList<QString>> iterator(map);
 
-    scene->setBackgroundBrush(QImage(map->getBackground()));
+    scene->setBackgroundBrush(QImage(iterator.next()[0]));
 
     while(iterator.hasNext()){
-        scene->addItem(iterator.next());
+        QList<QString> infos = iterator.next();
+
+        if(infos[0] == "BLOCKENTITY"){
+            scene->addItem(new BlockEntity(infos[1], infos[2].toInt(), infos[3].toInt()));
+        }
+        else if(infos[0] == "WARPENTITY"){
+            scene->addItem(new WarpEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toInt(),  infos[5].toInt(), infos[6].toInt()));
+        }
+        else if(infos[0] == "PATHMONSTERENTITY"){
+            scene->addItem(new PathMonsterEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), infos[6]));
+        }
+        else if(infos[0] == "PICKABLEENTITY"){
+            scene->addItem(new PickableEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4]));
+        }
     }
 
     view->viewport()->update();
 }
 
-void MainController::loadMap(int id){
+void MainController::loadMap(int id, int dx, int dy){
     currentLevel = id;
 
     if(id == 0){
-        Map *m = new Map(":/Background/ForestFloor");
+        QList<QList<QString>> map;
 
-        m->setEntity(new PlayerEntity(":/Character/NinjaRight", 1, 14, 3, 3, this));
-        m->setEntity(new WarpEntity(":/Terrain/Warp", 0, 14, 1));
-        m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 0));
 
-        loadMap(m);
+        map= fm->loadDefaultMap(currentLevel);
+        loadMap(map, dx, dy);
     }
     if(id == 1){
-        Map *m = new Map(":/Background/ForestFloor");
+        QList<QList<QString>> map;
 
-        m->setEntity(new PlayerEntity(":/Character/NinjaRight", 18, 14, 3, 3, this));
-        m->setEntity(new PathMonsterEntity(":/Character/Wolf", 2, 7, 1, 1, "R:4:U:4:L:2:D:2:L:2:D:2"));
-        m->setEntity(new WarpEntity(":/Terrain/Warp", 19, 14, 0));
-        m->setEntity(new BlockEntity(":/Terrain/Tree", 0, 1));
-        m->setEntity(new PickableEntity(":/Item/Key",5,5,"keyForest"));
 
-        loadMap(m);
+        map= fm->loadDefaultMap(currentLevel);
+
+
+        loadMap(map, dx, dy);
+    }
+    if(id == 2){
+        QList<QList<QString>> map;
+
+
+        map= fm->loadDefaultMap(currentLevel);
+
+        loadMap(map, dx, dy);
     }
 }
 
@@ -82,6 +98,16 @@ PlayerInventory *MainController::getInventory() const
 void MainController::setInventory(PlayerInventory *value)
 {
     inventory = value;
+}
+
+int MainController::getStartX() const
+{
+    return startX;
+}
+
+int MainController::getStartY() const
+{
+    return startY;
 }
 
 
