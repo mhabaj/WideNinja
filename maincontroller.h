@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QList>
 #include <QObject>
+#include "filemanager.h"
 #include "playerinventory.h"
 
 class MainController: public QObject
@@ -15,8 +16,10 @@ private:
     QGraphicsScene *scene;
     QGraphicsView *view;
     PlayerInventory *inventory;
+    FileManager* fm;
     int currentLevel;
     int startX, startY;
+
 
 public:
     void loadMap(QList<QList<QString>> map, int dx, int dy);
