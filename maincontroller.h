@@ -34,6 +34,10 @@ public:
     int getCurrentLevel() const;
     int getStartX() const;
     int getStartY() const;
+
+    QGraphicsScene *getScene() const;
+    QGraphicsView *getView() const;
+    FileManager *getFm() const;
 };
 
 #endif // MAINCONTROLLER_H

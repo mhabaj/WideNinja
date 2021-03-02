@@ -18,28 +18,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     blockentity.cpp \
     entity.cpp \
-    filemanager.cpp \
     livingentity.cpp \
     main.cpp \
     maincontroller.cpp \
+    map.cpp \
     movableentity.cpp \
     pathmonsterentity.cpp \
     playerentity.cpp \
+    samouraiwatcher.cpp \
     warpentity.cpp \
     pickableentity.cpp \
+    filemanager.cpp \
     playerinventory.cpp
 
 HEADERS += \
     blockentity.h \
     entity.h \
-    filemanager.h \
     livingentity.h \
     maincontroller.h \
+    map.h \
     movableentity.h \
     pathmonsterentity.h \
     playerentity.h \
+    samouraiwatcher.h \
     warpentity.h \
     pickableentity.h \
+    filemanager.h \
     playerinventory.h
 
 FORMS +=
@@ -50,4 +54,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    Map.qrc \
     Sprites.qrc

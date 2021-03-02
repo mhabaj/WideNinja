@@ -5,6 +5,8 @@
 #include "pathmonsterentity.h"
 #include "playerentity.h"
 #include "pickableentity.h"
+#include "samouraiwatcher.h"
+
 
 #include "maincontroller.h"
 
@@ -21,6 +23,21 @@ MainController::MainController():
     loadMap(1, 10, 18);
     currentLevel = 1;
     inventory = new PlayerInventory();
+}
+
+FileManager *MainController::getFm() const
+{
+    return fm;
+}
+
+QGraphicsView *MainController::getView() const
+{
+    return view;
+}
+
+QGraphicsScene *MainController::getScene() const
+{
+    return scene;
 }
 
 void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
@@ -50,6 +67,11 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
         else if(infos[0] == "PICKABLEENTITY"){
             scene->addItem(new PickableEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4]));
         }
+        else if(infos[0] == "SAMOURAIWATCHER")
+        {
+            scene->addItem(new SamouraiWatcher(":Character/NinjaRight", 9, 9, 0, 1, 5,this));
+        }
+
     }
 
     view->viewport()->update();
@@ -109,9 +131,4 @@ int MainController::getStartY() const
 {
     return startY;
 }
-
-
-
-
-
 

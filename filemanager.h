@@ -6,13 +6,14 @@
 #include <QDebug>
 #include "playerinventory.h"
 #include <QDataStream>
+
 class FileManager
 {
 
 private:
     QList<QFile> savedPlayerProfil;
-    const QString defaultMapFolderPath = "D:/Drive/Backup/backupUSB2GoNoir/FAC/4emeAnneePolytech/S8/C++/TP1/WideNinja/assets/Map/";
-    const QString customPlayerSaveFilePath = "D:/Drive/Backup/backupUSB2GoNoir/FAC/4emeAnneePolytech/S8/C++/TP1/WideNinja/assets/saves/save.wide";
+    const QString defaultMapFolderPath = ":/Map/";
+    const QString customPlayerSaveFilePath = ":/Map/";
 public:
     FileManager();
 
