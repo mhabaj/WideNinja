@@ -20,12 +20,15 @@ private:
 
     MainController *mc;
 
+    bool isDead;
+
 public slots:
     void moveUpSlot();
     void moveDownSlot();
     void moveLeftSlot();
     void moveRightSlot();
     void collisionSlot();
+    void deathSlot();
 
 public:
     PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value);
@@ -39,6 +42,8 @@ public:
     }
     MainController *getMc() const;
     void setMc(MainController *value);
+    bool getIsDead() const;
+    void setIsDead(bool value);
 };
 
 #endif // PLAYERENTITY_H

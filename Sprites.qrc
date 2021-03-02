@@ -5,6 +5,7 @@
         <file alias="NinjaRight">Sprites/Characters/Ninja/NinjaRight.png</file>
         <file alias="NinjaUp">Sprites/Characters/Ninja/NinjaUp.png</file>
         <file alias="Wolf">Sprites/Characters/Wolf.png</file>
+        <file alias="NinjaDead">Sprites/Characters/Ninja/NinjaDead.png</file>
     </qresource>
     <qresource prefix="/Background">
         <file alias="ForestFloor">Sprites/Background/ForestFloor.png</file>
@@ -16,5 +17,4 @@
     <qresource prefix="/Item">
         <file alias="Key">Sprites/Items/Key.png</file>
     </qresource>
-    <qresource prefix="/"/>
 </RCC>

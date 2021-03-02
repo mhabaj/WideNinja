@@ -24,10 +24,11 @@ SOURCES += \
     map.cpp \
     movableentity.cpp \
     pathmonsterentity.cpp \
-    pickableentity.cpp \
     playerentity.cpp \
-    playerinventory.cpp \
-    warpentity.cpp
+    samouraiwatcher.cpp \
+    warpentity.cpp \
+    pickableentity.cpp \
+    playerinventory.cpp
 
 HEADERS += \
     blockentity.h \
@@ -37,10 +38,11 @@ HEADERS += \
     map.h \
     movableentity.h \
     pathmonsterentity.h \
-    pickableentity.h \
     playerentity.h \
-    playerinventory.h \
-    warpentity.h
+    samouraiwatcher.h \
+    warpentity.h \
+    pickableentity.h \
+    playerinventory.h
 
 FORMS +=
 
@@ -51,5 +53,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Sprites.qrc
-
-DISTFILES +=

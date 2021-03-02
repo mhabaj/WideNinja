@@ -17,10 +17,12 @@ private:
     QGraphicsScene *scene;
     QGraphicsView *view;
     PlayerInventory *inventory;
+    int currentLevel;
+    int startX, startY;
 
 public:
-    void loadMap(Map *map);
-    void loadMap(int id);
+    void loadMap(Map *map, int dx, int dy);
+    void loadMap(int id, int dx, int dy);
     const int PIXELS = 32;
     const int SIZE = 20;
 
@@ -28,6 +30,12 @@ public:
 
     PlayerInventory *getInventory() const;
     void setInventory(PlayerInventory *value);
+    int getCurrentLevel() const;
+    int getStartX() const;
+    int getStartY() const;
+
+    QGraphicsScene *getScene() const;
+    QGraphicsView *getView() const;
 };
 
 #endif // MAINCONTROLLER_H
