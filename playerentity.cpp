@@ -38,7 +38,8 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveUTimer->isActive() || moveDTimer->isActive())
                     setDiag(true);
                 moveLTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaLeft"));
+                QPixmap qpm(":/Character/NinjaLeft");
+                setPixmap(qpm);
             }
         }
         else if(event->key() == Qt::Key_Right)
@@ -47,7 +48,8 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveUTimer->isActive() || moveDTimer->isActive())
                     setDiag(true);
                 moveRTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaRight"));
+                QPixmap qpm(":/Character/NinjaRight");
+                setPixmap(qpm);
             }
         }
         else if(event->key() == Qt::Key_Up)
@@ -56,7 +58,9 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveRTimer->isActive() || moveLTimer->isActive())
                     setDiag(true);
                 moveUTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaUp"));
+                QPixmap qpm(":/Character/NinjaUp");
+
+                setPixmap(qpm);
             }
         }
         else if(event->key() == Qt::Key_Down)
@@ -65,7 +69,9 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveRTimer->isActive() || moveLTimer->isActive())
                     setDiag(true);
                 moveDTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaDown"));
+                QPixmap qpm(":/Character/NinjaDown");
+
+                setPixmap(qpm);
             }
         }
     }
@@ -127,8 +133,10 @@ void PlayerEntity::collision(int direction){
             if(moveRTimer->isActive()) moveRTimer->stop();
             if(moveUTimer->isActive()) moveUTimer->stop();
             if(moveDTimer->isActive()) moveDTimer->stop();
+            QPixmap qpmn(":/Character/NinjaDead");
 
-            setPixmap(*new QPixmap(":/Character/NinjaDead"));
+            setPixmap(qpmn);
+
             QTimer::singleShot(1500, this, SLOT(deathSlot()));
         }
 
@@ -154,16 +162,6 @@ MainController *PlayerEntity::getMc() const
 void PlayerEntity::setMc(MainController *value)
 {
     mc = value;
-}
-
-bool PlayerEntity::getIsDead() const
-{
-    return isDead;
-}
-
-void PlayerEntity::setIsDead(bool value)
-{
-    isDead = value;
 }
 
 void PlayerEntity::moveUpSlot(){

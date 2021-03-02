@@ -28,6 +28,7 @@ SOURCES += \
     samouraiwatcher.cpp \
     warpentity.cpp \
     pickableentity.cpp \
+    filemanager.cpp \
     playerinventory.cpp
 
 HEADERS += \
@@ -42,6 +43,7 @@ HEADERS += \
     samouraiwatcher.h \
     warpentity.h \
     pickableentity.h \
+    filemanager.h \
     playerinventory.h
 
 FORMS +=
@@ -52,4 +54,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    Map.qrc \
     Sprites.qrc
