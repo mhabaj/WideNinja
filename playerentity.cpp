@@ -166,6 +166,13 @@ void PlayerEntity::collision(int direction){
                 qDebug() << ((GateEntity *)item)->getDy();
                 mc->loadMap(((GateEntity *)item)->getId(), ((GateEntity *)item)->getDx(), ((GateEntity *)item)->getDy());
             }
+            else
+            {
+                if(direction == L) moveRight();
+                else if(direction == R) moveLeft();
+                else if(direction == U) moveDown();
+                else if(direction == D) moveUp();
+            }
         }
     }
 }
