@@ -21,22 +21,22 @@ void SamouraiWatcher::moveDirectionSlot()
 {
     if (status == -1)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaDown"));
+        setPixmap(* new QPixmap(":/Character/SamouraiDown"));
         status = 0;
     }
     else if (status == 0)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaLeft"));
+        setPixmap(* new QPixmap(":/Character/SamouraiLeft"));
         status = 1;
     }
     else if (status == 1)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaUp"));
+        setPixmap(* new QPixmap(":/Character/SamouraiUp"));
         status = 2;
     }
     else if (status == 2)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaRight"));
+        setPixmap(* new QPixmap(":/Character/SamouraiRight"));
         status = -1;
     }  
 }

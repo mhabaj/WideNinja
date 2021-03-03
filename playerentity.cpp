@@ -5,6 +5,7 @@
 #include "blockentity.h"
 #include "warpentity.h"
 #include "pickableentity.h"
+#include "gateentity.h"
 
 PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(image, x, y, speed, maxHealth)
@@ -142,7 +143,8 @@ void PlayerEntity::collision(int direction){
             QTimer::singleShot(1500, this, SLOT(deathSlot()));
         }
 
-        else if(item->type() == WARPENTITY){
+        else if(item->type() == WARPENTITY)
+        {
             mc->getInventory()->pushTemp();
             mc->getInventory()->clearTemp();
             mc->loadMap(((WarpEntity *)item)->getId(), ((WarpEntity *)item)->getDx(), ((WarpEntity *)item)->getDy());
@@ -153,8 +155,19 @@ void PlayerEntity::collision(int direction){
             mc->getInventory()->addTempValue(((PickableEntity *)item)->getKey());
             delete item;
         }
+        else if(item->type() == GATEENTITY)
+        {
+            if(mc->getInventory()->getValuePickable(((GateEntity *)item)->getKey()) >= 1)
+            {
+                QPixmap openedDoorImage(":/Terrain/DoorOpen");
+                ((GateEntity *)item)->setPixmap(openedDoorImage);
+                ((GateEntity *)item)->setOpened(true);
+                qDebug() << ((GateEntity *)item)->getDx();
+                qDebug() << ((GateEntity *)item)->getDy();
+                mc->loadMap(((GateEntity *)item)->getId(), ((GateEntity *)item)->getDx(), ((GateEntity *)item)->getDy());
+            }
+        }
     }
-
 }
 
 MainController *PlayerEntity::getMc() const

@@ -6,6 +6,7 @@
 #include "playerentity.h"
 #include "pickableentity.h"
 #include "samouraiwatcher.h"
+#include "gateentity.h"
 
 
 #include "maincontroller.h"
@@ -67,9 +68,9 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
         else if(infos[0] == "PICKABLEENTITY"){
             scene->addItem(new PickableEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4]));
         }
-
     }
-    scene->addItem(new SamouraiWatcher(":Character/NinjaRight", 9, 9, 0, 1, 5,this));
+    scene->addItem(new SamouraiWatcher(":/Character/SamouraiRight", 9, 9, 0, 1, 5,this));
+    scene->addItem(new GateEntity(":/Terrain/DoorClosed", 9, 1, 1, 9, 2,"keyForest"));
 
 
     view->viewport()->update();

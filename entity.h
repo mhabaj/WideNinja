@@ -25,7 +25,7 @@ public:
     const int PATHMONSTERENTITY = 66006;
     const int PICKABLEENTITY = 66007;
     const int SAMOURAIWATCHER = 66008;
-
+    const int GATEENTITY = 66009;
 
 
     Entity(QString image, int x, int y);

@@ -2,12 +2,10 @@
 #define SAMOURAIWATCHER_H
 
 #include "livingentity.h"
-#include <QTimer>
 #include <maincontroller.h>
-#include <QList>
-#include <QListIterator>
-#include <typeinfo>
 #include <playerentity.h>
+#include <QTimer>
+#include <QList>
 
 
 class SamouraiWatcher : public QObject, public LivingEntity

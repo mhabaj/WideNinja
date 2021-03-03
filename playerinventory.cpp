@@ -38,25 +38,6 @@ void PlayerInventory::substractTempValue(QString key)
     }
 }
 
-QMap<QString, int> PlayerInventory::getInventory() const
-{
-    return inventory;
-}
-
-void PlayerInventory::setInventory(const QMap<QString, int> &value)
-{
-    inventory = value;
-}
-
-QMap<QString, int> PlayerInventory::getTempInventory() const
-{
-    return tempInventory;
-}
-
-void PlayerInventory::setTempInventory(const QMap<QString, int> &value)
-{
-    tempInventory = value;
-}
 
 void PlayerInventory::pushTemp()
 {
@@ -97,4 +78,31 @@ void PlayerInventory::show()
         i.next();
         qDebug() << i.key() << ": " << i.value();
     }
+}
+
+int PlayerInventory::getValuePickable(QString item)
+{
+    return inventory[item] + tempInventory[item];
+
+}
+
+
+QMap<QString, int> PlayerInventory::getInventory() const
+{
+    return inventory;
+}
+
+void PlayerInventory::setInventory(const QMap<QString, int> &value)
+{
+    inventory = value;
+}
+
+QMap<QString, int> PlayerInventory::getTempInventory() const
+{
+    return tempInventory;
+}
+
+void PlayerInventory::setTempInventory(const QMap<QString, int> &value)
+{
+    tempInventory = value;
 }
