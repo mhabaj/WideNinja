@@ -109,14 +109,16 @@ void PlayerEntity::keyReleaseEvent(QKeyEvent *event){
         }
     }
 }
-void PlayerEntity::collisionSlot(){
+void PlayerEntity::collisionSlot()
+{
     collision(0);
 }
 
 void PlayerEntity::collision(int direction){
     QListIterator<QGraphicsItem *> collidings(collidingItems());
 
-    while(collidings.hasNext()){
+    while(collidings.hasNext())
+    {
         QGraphicsItem *item = collidings.next();
 
         if(item->type() == BLOCKENTITY){
@@ -152,6 +154,7 @@ void PlayerEntity::collision(int direction){
             delete item;
         }
     }
+
 }
 
 MainController *PlayerEntity::getMc() const

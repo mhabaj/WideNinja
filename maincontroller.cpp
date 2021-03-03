@@ -20,8 +20,8 @@ MainController::MainController():
     view->setScene(scene);
     view->show();
 
-    loadMap(1, 10, 18);
-    currentLevel = 1;
+    loadMap(0, 10, 18);
+    currentLevel = 0;
     inventory = new PlayerInventory();
 }
 
@@ -67,12 +67,10 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
         else if(infos[0] == "PICKABLEENTITY"){
             scene->addItem(new PickableEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4]));
         }
-        else if(infos[0] == "SAMOURAIWATCHER")
-        {
-            scene->addItem(new SamouraiWatcher(":Character/NinjaRight", 9, 9, 0, 1, 5,this));
-        }
 
     }
+    scene->addItem(new SamouraiWatcher(":Character/NinjaRight", 9, 9, 0, 1, 5,this));
+
 
     view->viewport()->update();
 }

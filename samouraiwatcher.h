@@ -16,15 +16,16 @@ class SamouraiWatcher : public QObject, public LivingEntity
 
 private :
     QTimer *changeDirectionTimer;
+    QTimer *DetectionTimer;
     int status;
     MainController * mc;
 
 public slots :
-    void moveDirection();
+    void moveDirectionSlot();
+    void detectionPlayerSlot();
 
 public :
     SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth, int watchTime, MainController *value);
-
     QTimer *getChangeDirectionTimer() const;
     int getStatus() const;
     MainController *getMc() const;
