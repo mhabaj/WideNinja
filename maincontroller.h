@@ -20,7 +20,6 @@ private:
     int currentLevel;
     int startX, startY;
 
-
 public:
     void loadMap(QList<QList<QString>> map, int dx, int dy);
     void loadMap(int id, int dx, int dy);
@@ -31,6 +30,7 @@ public:
 
     PlayerInventory *getInventory() const;
     void setInventory(PlayerInventory *value);
+    int ** getCollisionMap();
     int getCurrentLevel() const;
     int getStartX() const;
     int getStartY() const;

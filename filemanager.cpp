@@ -9,7 +9,7 @@ QList<QList<QString>> FileManager::loadDefaultMap(int mapNumber)
 {
     qDebug()<<"LOAD DEFAULT MAP STARTED------------------------------------------------------------------------------------------------\n";
     QList<QList<QString>> map;
-    QString validUrl = defaultMapFolderPath + QString::number(mapNumber);
+    QString validUrl = defaultMapFolderPath + QString::number(mapNumber) +".map";
     QFile file(validUrl);
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
@@ -22,7 +22,7 @@ QList<QList<QString>> FileManager::loadDefaultMap(int mapNumber)
 void FileManager::saveDefaultMap(QList<QList<QString> > mapNum, int mapNumber)
 {
     qDebug()<<"SAVE DEFAULT MAP STARTED------------------------------------------------------------------------------------------------\n";
-    QString validUrl = defaultMapFolderPath + QString::number(mapNumber);
+    QString validUrl = defaultMapFolderPath + QString::number(mapNumber) +".map";
     QFile file(validUrl);
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);

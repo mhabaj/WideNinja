@@ -1,6 +1,6 @@
 #include "samouraiwatcher.h"
 
-SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth ,int watchTime,MainController *value )
+SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth ,int watchTime, MainController *value )
     : LivingEntity(image, x, y, speed, maxHealth)
 {
     status = -1;
