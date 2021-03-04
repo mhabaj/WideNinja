@@ -6,6 +6,10 @@
         <file alias="NinjaUp">Sprites/Characters/Ninja/NinjaUp.png</file>
         <file alias="Wolf">Sprites/Characters/Wolf.png</file>
         <file alias="NinjaDead">Sprites/Characters/Ninja/NinjaDead.png</file>
+        <file alias="SamouraiDown">Sprites/Characters/Samourai/SamouraiDown.png</file>
+        <file alias="SamouraiLeft">Sprites/Characters/Samourai/SamouraiLeft.png</file>
+        <file alias="SamouraiRight">Sprites/Characters/Samourai/SamouraiRight.png</file>
+        <file alias="SamouraiUp">Sprites/Characters/Samourai/SamouraiUp.png</file>
     </qresource>
     <qresource prefix="/Background">
         <file alias="ForestFloor">Sprites/Background/ForestFloor.png</file>
@@ -13,6 +17,8 @@
     <qresource prefix="/Terrain">
         <file alias="Tree">Sprites/Terrains/Tree.png</file>
         <file alias="Warp">Sprites/Terrains/Warp.png</file>
+        <file alias="DoorClosed">Sprites/Terrains/DoorClosed.png</file>
+        <file alias="DoorOpen">Sprites/Terrains/DoorOpen.png</file>
     </qresource>
     <qresource prefix="/Item">
         <file alias="Key">Sprites/Items/Key.png</file>

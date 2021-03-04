@@ -5,6 +5,9 @@
 #include "pathmonsterentity.h"
 #include "playerentity.h"
 #include "pickableentity.h"
+#include "samouraiwatcher.h"
+#include "gateentity.h"
+
 
 #include "maincontroller.h"
 
@@ -18,9 +21,24 @@ MainController::MainController():
     view->setScene(scene);
     view->show();
 
-    loadMap(1, 10, 18);
-    currentLevel = 1;
+    loadMap(0, 10, 18);
+    currentLevel = 0;
     inventory = new PlayerInventory();
+}
+
+FileManager *MainController::getFm() const
+{
+    return fm;
+}
+
+QGraphicsView *MainController::getView() const
+{
+    return view;
+}
+
+QGraphicsScene *MainController::getScene() const
+{
+    return scene;
 }
 
 void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
@@ -51,6 +69,9 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
             scene->addItem(new PickableEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4]));
         }
     }
+    scene->addItem(new SamouraiWatcher(":/Character/SamouraiRight", 9, 9, 0, 1, 5,this));
+    scene->addItem(new GateEntity(":/Terrain/DoorClosed", 9, 1, 1, 9, 2,"keyForest"));
+
 
     view->viewport()->update();
 }
@@ -109,9 +130,4 @@ int MainController::getStartY() const
 {
     return startY;
 }
-
-
-
-
-
 

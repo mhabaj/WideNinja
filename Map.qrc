@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Map">
+        <file alias="0">assets/Map/0.map</file>
+        <file alias="1">assets/Map/1.map</file>
+        <file alias="2">assets/Map/2.map</file>
+    </qresource>
+</RCC>

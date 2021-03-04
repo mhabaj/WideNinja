@@ -42,6 +42,8 @@ public:
     }
     MainController *getMc() const;
     void setMc(MainController *value);
+    bool getIsDead() const;
+    void setIsDead(bool value);
 };
 
 #endif // PLAYERENTITY_H

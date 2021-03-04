@@ -5,6 +5,7 @@
 #include "blockentity.h"
 #include "warpentity.h"
 #include "pickableentity.h"
+#include "gateentity.h"
 
 PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(image, x, y, speed, maxHealth)
@@ -38,7 +39,8 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveUTimer->isActive() || moveDTimer->isActive())
                     setDiag(true);
                 moveLTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaLeft"));
+                QPixmap qpm(":/Character/NinjaLeft");
+                setPixmap(qpm);
             }
         }
         else if(event->key() == Qt::Key_Right)
@@ -47,7 +49,8 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveUTimer->isActive() || moveDTimer->isActive())
                     setDiag(true);
                 moveRTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaRight"));
+                QPixmap qpm(":/Character/NinjaRight");
+                setPixmap(qpm);
             }
         }
         else if(event->key() == Qt::Key_Up)
@@ -56,7 +59,9 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveRTimer->isActive() || moveLTimer->isActive())
                     setDiag(true);
                 moveUTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaUp"));
+                QPixmap qpm(":/Character/NinjaUp");
+
+                setPixmap(qpm);
             }
         }
         else if(event->key() == Qt::Key_Down)
@@ -65,7 +70,9 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveRTimer->isActive() || moveLTimer->isActive())
                     setDiag(true);
                 moveDTimer->start(10);
-                setPixmap(*new QPixmap(":/Character/NinjaDown"));
+                QPixmap qpm(":/Character/NinjaDown");
+
+                setPixmap(qpm);
             }
         }
     }
@@ -103,14 +110,16 @@ void PlayerEntity::keyReleaseEvent(QKeyEvent *event){
         }
     }
 }
-void PlayerEntity::collisionSlot(){
+void PlayerEntity::collisionSlot()
+{
     collision(0);
 }
 
 void PlayerEntity::collision(int direction){
     QListIterator<QGraphicsItem *> collidings(collidingItems());
 
-    while(collidings.hasNext()){
+    while(collidings.hasNext())
+    {
         QGraphicsItem *item = collidings.next();
 
         if(item->type() == BLOCKENTITY){
@@ -127,12 +136,15 @@ void PlayerEntity::collision(int direction){
             if(moveRTimer->isActive()) moveRTimer->stop();
             if(moveUTimer->isActive()) moveUTimer->stop();
             if(moveDTimer->isActive()) moveDTimer->stop();
+            QPixmap qpmn(":/Character/NinjaDead");
 
-            setPixmap(*new QPixmap(":/Character/NinjaDead"));
+            setPixmap(qpmn);
+
             QTimer::singleShot(1500, this, SLOT(deathSlot()));
         }
 
-        else if(item->type() == WARPENTITY){
+        else if(item->type() == WARPENTITY)
+        {
             mc->getInventory()->pushTemp();
             mc->getInventory()->clearTemp();
             mc->loadMap(((WarpEntity *)item)->getId(), ((WarpEntity *)item)->getDx(), ((WarpEntity *)item)->getDy());
@@ -142,6 +154,25 @@ void PlayerEntity::collision(int direction){
         {
             mc->getInventory()->addTempValue(((PickableEntity *)item)->getKey());
             delete item;
+        }
+        else if(item->type() == GATEENTITY)
+        {
+            if(mc->getInventory()->getValuePickable(((GateEntity *)item)->getKey()) >= 1)
+            {
+                QPixmap openedDoorImage(":/Terrain/DoorOpen");
+                ((GateEntity *)item)->setPixmap(openedDoorImage);
+                ((GateEntity *)item)->setOpened(true);
+                qDebug() << ((GateEntity *)item)->getDx();
+                qDebug() << ((GateEntity *)item)->getDy();
+                mc->loadMap(((GateEntity *)item)->getId(), ((GateEntity *)item)->getDx(), ((GateEntity *)item)->getDy());
+            }
+            else
+            {
+                if(direction == L) moveRight();
+                else if(direction == R) moveLeft();
+                else if(direction == U) moveDown();
+                else if(direction == D) moveUp();
+            }
         }
     }
 }
