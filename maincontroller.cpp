@@ -7,6 +7,7 @@
 #include "pickableentity.h"
 #include "samouraiwatcher.h"
 #include "gateentity.h"
+#include "followingentity.h"
 
 
 #include "maincontroller.h"
@@ -74,6 +75,9 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy)
         else if(infos[0] == "GATEENTITY"){
             scene->addItem(new GateEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toInt(), infos[5].toInt(), infos[6].toInt(), infos[7]));
         }
+        else if(infos[0] == "FOLLOWINGENTITY"){
+            scene->addItem(new FollowingEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), this));
+        }
     }
 
     view->viewport()->update();
@@ -86,20 +90,6 @@ void MainController::loadMap(int id, int dx, int dy){
 
     map= fm->loadDefaultMap(currentLevel);
     loadMap(map, dx, dy);
-
-    int** cm = getCollisionMap();
-
-    for (int h = 0; h < 20; h++)
-    {
-        QString a = "";
-
-        for (int w = 0; w < 20; w++)
-        {
-              a += QString::number(cm[h][w]);
-        }
-
-        qDebug() << a;
-    }
 }
 
 int ** MainController::getCollisionMap(){
@@ -126,11 +116,31 @@ int ** MainController::getCollisionMap(){
             int x = item->x()/PIXELS;
             int y = item->y()/PIXELS;
 
-            collisionMap[y][x] = 1;
+            collisionMap[x][y] = 1;
         }
     }
 
     return collisionMap;
+}
+
+int * MainController::getPlayerCoords()
+{
+    int *coords = new int[2];
+
+    QListIterator<QGraphicsItem *> ite(getScene()->items());
+
+    while(ite.hasNext()){
+        QGraphicsItem *item = ite.next();
+
+        if(item->type() == 66004)
+        {
+            coords[0] = item->x();
+            coords[1] = item->y();
+            break;
+        }
+    }
+
+    return coords;
 }
 
 int MainController::getCurrentLevel() const

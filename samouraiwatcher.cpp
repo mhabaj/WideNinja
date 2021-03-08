@@ -45,25 +45,13 @@ void SamouraiWatcher::moveDirectionSlot()
 void SamouraiWatcher::detectionPlayerSlot()
 {
     int detectionWide = 65;
-    QList<QGraphicsItem *> listItems = mc->getScene()->items();
-    int playerX = 0;
-    int playerY = 0;
-    int samouraiX = 0;
-    int samouraiY = 0;
+    int samouraiX = x();
+    int samouraiY = y();
 
-    for (int i = 0; i < listItems.length(); i++)
-    {
-        if(listItems[i]->type() == 66004)
-        {
-            playerX = listItems[i]->x();
-            playerY = listItems[i]->y();
-        }
-        if(listItems[i]->type() == 66008)
-        {
-            samouraiX = listItems[i]->x();
-            samouraiY = listItems[i]->y();
-        }
-    }
+    int *coords = mc->getPlayerCoords();
+
+    int playerX = coords[0];
+    int playerY = coords[1];
 
     if (status == 0)
     {

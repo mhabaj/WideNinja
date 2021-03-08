@@ -11,20 +11,26 @@ int main(int argc, char *argv[])
 
 //    FileManager *fm = new FileManager();
 
-//    QList<QList<QString>> map = fm->loadDefaultMap(0);
+//    QList<QList<QString>> map = fm->loadDefaultMap(2);
+
+//    map.push_back({"BLOCKENTITY", ":/Terrain/Tree", "13", "5"});
+//    map.push_back({"BLOCKENTITY", ":/Terrain/Tree", "13", "6"});
+//    map.push_back({"BLOCKENTITY", ":/Terrain/Tree", "13", "7"});
+//    map.push_back({"BLOCKENTITY", ":/Terrain/Tree", "13", "8"});
+//    map.push_back({"BLOCKENTITY", ":/Terrain/Tree", "13", "9"});
+//    map.push_back({"FOLLOWINGENTITY", ":/Character/SamouraiDown", "4", "4", "3", "1", "2"});
 
 //    QListIterator<QList<QString>> ite(map);
 
 //    while(ite.hasNext()){
 //        QList<QString> info = ite.next();
-//        if(info[0] == "SAMOURAIWATCHER" && info[2] == "9" && info[3] == "9"){
-//            qDebug() << "BISMILLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+//        if(info[0] == "FOLLOWINGENTITY" ){
 //            map.removeOne(info);
-//            map.push_back({"SAMOURAIWATCHER", ":/Character/SamouraiRight", "9", "9", "0", "1", "2"});
+//            map.push_back({"FOLLOWINGENTITY", ":/Character/SamouraiDown", "4", "4", "3", "1", "2"});
 //        }
 //    }
 
-//    fm->saveDefaultMap(map, 0);
+//    fm->saveDefaultMap(map, 2);
 
     return a.exec();
 }

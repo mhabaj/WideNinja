@@ -14,7 +14,6 @@ QList<QList<QString>> FileManager::loadDefaultMap(int mapNumber)
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
     in >> map;
-    qDebug() << map;
     qDebug()<<"LOAD DEFAULT MAP FINISHED------------------------------------------------------------------------------------------------\n";
     return map;
 }

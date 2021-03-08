@@ -26,6 +26,7 @@ public:
     const int PICKABLEENTITY = 66007;
     const int SAMOURAIWATCHER = 66008;
     const int GATEENTITY = 66009;
+    const int FOLLOWINGENTITY = 66010;
 
 
     Entity(QString image, int x, int y);

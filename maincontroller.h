@@ -31,6 +31,7 @@ public:
     PlayerInventory *getInventory() const;
     void setInventory(PlayerInventory *value);
     int ** getCollisionMap();
+    int * getPlayerCoords();
     int getCurrentLevel() const;
     int getStartX() const;
     int getStartY() const;
