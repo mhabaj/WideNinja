@@ -6,12 +6,20 @@
 FollowingEntity::FollowingEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(image, x, y, speed, maxHealth)
 {
+    upPix = new QPixmap(":/Character/SamouraiUp");
+    downPix = new QPixmap(":/Character/SamouraiDown");
+    rightPix = new QPixmap(":/Character/SamouraiRight");
+    leftPix = new QPixmap(":/Character/SamouraiLeft");
     mc = value;
-    QTimer *moveTimer = new QTimer();
-    move();
+    behaviour();
 }
 
-void FollowingEntity::move()
+void FollowingEntity::behaviour()
+{
+    moveTowardsPlayer();
+}
+
+void FollowingEntity::moveTowardsPlayer()
 {
     int dir = nextMove();
 
@@ -23,8 +31,9 @@ void FollowingEntity::move()
 
 void FollowingEntity::moveUp()
 {
+    setPixmap(*upPix);
     QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(move()));
+    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
     animation->setDuration(1000/getSpeed());
     animation->setEndValue(y()-PIXELS);
     animation->start();
@@ -32,8 +41,9 @@ void FollowingEntity::moveUp()
 
 void FollowingEntity::moveDown()
 {
+    setPixmap(*downPix);
     QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(move()));
+    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
     animation->setDuration(1000/getSpeed());
     animation->setEndValue(y()+PIXELS);
     animation->start();
@@ -41,8 +51,9 @@ void FollowingEntity::moveDown()
 
 void FollowingEntity::moveLeft()
 {
+    setPixmap(*leftPix);
     QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(move()));
+    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
     animation->setDuration(1000/getSpeed());
     animation->setEndValue(x()-PIXELS);
     animation->start();
@@ -50,8 +61,9 @@ void FollowingEntity::moveLeft()
 
 void FollowingEntity::moveRight()
 {
+    setPixmap(*rightPix);
     QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(move()));
+    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
     animation->setDuration(1000/getSpeed());
     animation->setEndValue(x()+PIXELS);
     animation->start();

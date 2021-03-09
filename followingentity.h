@@ -12,11 +12,12 @@ class FollowingEntity: public QObject, public LivingEntity
 
 private:
     MainController *mc;
+    QPixmap *upPix, *downPix, *rightPix, *leftPix;
     int dx;
     int dy;
 
 private slots:
-    void move();
+    void behaviour();
 
 public:
     FollowingEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value);
@@ -24,6 +25,7 @@ public:
     void follow();
     std::pair<int, int> findNext();
 
+    void moveTowardsPlayer();
     void moveUp();
     void moveDown();
     void moveLeft();

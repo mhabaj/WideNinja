@@ -4,12 +4,15 @@
         <file alias="NinjaLeft">Sprites/Characters/Ninja/NinjaLeft.png</file>
         <file alias="NinjaRight">Sprites/Characters/Ninja/NinjaRight.png</file>
         <file alias="NinjaUp">Sprites/Characters/Ninja/NinjaUp.png</file>
-        <file alias="Wolf">Sprites/Characters/Wolf.png</file>
         <file alias="NinjaDead">Sprites/Characters/Ninja/NinjaDead.png</file>
         <file alias="SamouraiDown">Sprites/Characters/Samourai/SamouraiDown.png</file>
         <file alias="SamouraiLeft">Sprites/Characters/Samourai/SamouraiLeft.png</file>
         <file alias="SamouraiRight">Sprites/Characters/Samourai/SamouraiRight.png</file>
         <file alias="SamouraiUp">Sprites/Characters/Samourai/SamouraiUp.png</file>
+        <file alias="WolfDown">Sprites/Characters/Wolf/WolfDown.png</file>
+        <file alias="WolfLeft">Sprites/Characters/Wolf/WolfLeft.png</file>
+        <file alias="WolfRight">Sprites/Characters/Wolf/WolfRight.png</file>
+        <file alias="WolfUp">Sprites/Characters/Wolf/WolfUp.png</file>
     </qresource>
     <qresource prefix="/Background">
         <file alias="ForestFloor">Sprites/Background/ForestFloor.png</file>

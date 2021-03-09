@@ -11,6 +11,14 @@ class PathMonsterEntity: public QObject, public LivingEntity
     Q_PROPERTY(int y READ y WRITE setY)
 private:
     QSequentialAnimationGroup *group;
+    QPixmap *upPix, *downPix, *leftPix, *rightPix;
+
+private slots:
+    void up();
+    void down();
+    void left();
+    void right();
+
 public:
     PathMonsterEntity(QString image, int x, int y, double speed, int maxHealth, QString path);
     ~PathMonsterEntity();
