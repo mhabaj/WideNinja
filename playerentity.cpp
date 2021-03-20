@@ -30,6 +30,22 @@ PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHea
     collisionTimer->start(10);
 }
 
+PlayerEntity::~PlayerEntity()
+{
+    moveUTimer->stop();
+    moveDTimer->stop();
+    moveLTimer->stop();
+    moveRTimer->stop();
+    collisionTimer->stop();
+
+    delete moveUTimer;
+    delete moveDTimer;
+    delete moveLTimer;
+    delete moveRTimer;
+    delete collisionTimer;
+
+}
+
 void PlayerEntity::keyPressEvent(QKeyEvent *event){
     if(!event->isAutoRepeat() && !isDead){
         if(event->key() == Qt::Key_Left)
@@ -109,14 +125,16 @@ void PlayerEntity::keyReleaseEvent(QKeyEvent *event){
         }
     }
 }
-void PlayerEntity::collisionSlot(){
+void PlayerEntity::collisionSlot()
+{
     collision(0);
 }
 
 void PlayerEntity::collision(int direction){
     QListIterator<QGraphicsItem *> collidings(collidingItems());
 
-    while(collidings.hasNext()){
+    while(collidings.hasNext())
+    {
         QGraphicsItem *item = collidings.next();
 
         if(item->type() == BLOCKENTITY){
@@ -152,6 +170,7 @@ void PlayerEntity::collision(int direction){
             delete item;
         }
     }
+
 }
 
 MainController *PlayerEntity::getMc() const

@@ -11,12 +11,11 @@ class FileManager
 {
 
 private:
-    QList<QFile> savedPlayerProfil;
     const QString defaultMapFolderPath = ":/Map/";
     const QString customPlayerSaveFilePath = ":/Map/";
 public:
     FileManager();
-
+    ~FileManager();
     QList<QList<QString>> loadDefaultMap(int mapNumber );
     void saveDefaultMap(QList<QList<QString>> mapNum, int mapNumber );
 

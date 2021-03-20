@@ -26,7 +26,7 @@ public:
     const int PICKABLEENTITY = 66007;
     const int SAMOURAIWATCHER = 66008;
 
-
+    ~Entity();
 
     Entity(QString image, int x, int y);
 

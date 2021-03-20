@@ -7,6 +7,11 @@ LivingEntity::LivingEntity(QString image, int x, int y, double speed, int maxHea
     setHealth(maxHealth);
 }
 
+LivingEntity::~LivingEntity()
+{
+
+}
+
 int LivingEntity::getHealth() const
 {
     return health;

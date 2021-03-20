@@ -5,3 +5,8 @@ BlockEntity::BlockEntity(QString image, int x, int y)
 {
 
 }
+
+BlockEntity::~BlockEntity()
+{
+
+}

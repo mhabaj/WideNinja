@@ -7,6 +7,11 @@ MovableEntity::MovableEntity(QString image, int x, int y, double speed)
     diag = false;
 }
 
+MovableEntity::~MovableEntity()
+{
+
+}
+
 bool MovableEntity::getDiag() const
 {
     return diag;

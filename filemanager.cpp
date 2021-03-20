@@ -5,6 +5,11 @@ FileManager::FileManager()
 
 }
 
+FileManager::~FileManager()
+{
+
+}
+
 QList<QList<QString>> FileManager::loadDefaultMap(int mapNumber)
 {
     qDebug()<<"LOAD DEFAULT MAP STARTED------------------------------------------------------------------------------------------------\n";
