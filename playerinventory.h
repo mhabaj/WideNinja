@@ -15,7 +15,7 @@ public:
     void setInventory(const QMap<QString, int> &value);
     void addValue(QString key);
     void substractValue(QString key);
-
+    int getValuePickable(QString item);
     QMap<QString, int> getTempInventory() const;
     void setTempInventory(const QMap<QString, int> &value);
     void addTempValue(QString key);

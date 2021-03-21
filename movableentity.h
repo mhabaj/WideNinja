@@ -11,7 +11,6 @@ private:
 
 public:
     MovableEntity(QString image, int x, int y, double speed);
-    ~MovableEntity();
     void moveUp();
     void moveDown();
     void moveLeft();

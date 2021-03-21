@@ -5,10 +5,17 @@
 PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, int maxHealth, QString path):
     LivingEntity(image, x, y, speed, maxHealth)
 {
+    upPix = new QPixmap(":/Character/WolfUp");
+    downPix = new QPixmap(":/Character/WolfDown");
+    leftPix = new QPixmap(":/Character/WolfLeft");
+    rightPix = new QPixmap(":/Character/WolfRight");
+
     group = new QSequentialAnimationGroup();
 
     int tempX = x*PIXELS;
     int tempY = y*PIXELS;
+
+    int firstDir = -1;
 
     QListIterator<QString> iterator(path.split(":"));
 
@@ -21,6 +28,12 @@ PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, 
             QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
             animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempY-distance*PIXELS);
+            if(group->animationCount() == 0){
+                firstDir = U;
+                setPixmap(*upPix);
+            }
+            else
+                QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(up()));
             group->addAnimation(animation);
             tempY -= distance*PIXELS;
         }
@@ -28,6 +41,12 @@ PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, 
             QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
             animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempY+distance*PIXELS);
+            if(group->animationCount() == 0){
+                firstDir = D;
+                setPixmap(*downPix);
+            }
+            else
+                QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(down()));
             group->addAnimation(animation);
             tempY += distance*PIXELS;
         }
@@ -35,6 +54,12 @@ PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, 
             QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
             animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempX-distance*PIXELS);
+            if(group->animationCount() == 0){
+                firstDir = L;
+                setPixmap(*leftPix);
+            }
+            else
+                QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(left()));
             group->addAnimation(animation);
             tempX -= distance*PIXELS;
         }
@@ -42,13 +67,44 @@ PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, 
             QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
             animation->setDuration((1000/speed)*distance);
             animation->setEndValue(tempX+distance*PIXELS);
+            if(group->animationCount() == 0){
+                firstDir = R;
+                setPixmap(*rightPix);
+            }
+            else
+                QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(right()));
             group->addAnimation(animation);
             tempX += distance*PIXELS;
         }
     }
 
+    if(firstDir == U)
+        QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(up()));
+    else if(firstDir == D)
+        QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(down()));
+    else if(firstDir == L)
+        QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(left()));
+    else if(firstDir == R)
+        QObject::connect(group->animationAt(group->animationCount()-1), SIGNAL(finished()), this, SLOT(right()));
+
     group->setLoopCount(-1);
     group->start();
+}
+
+void PathMonsterEntity::up(){
+    setPixmap(*upPix);
+}
+
+void PathMonsterEntity::down(){
+    setPixmap(*downPix);
+}
+
+void PathMonsterEntity::left(){
+    setPixmap(*leftPix);
+}
+
+void PathMonsterEntity::right(){
+    setPixmap(*rightPix);
 }
 
 PathMonsterEntity::~PathMonsterEntity(){

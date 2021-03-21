@@ -2,12 +2,10 @@
 #define SAMOURAIWATCHER_H
 
 #include "livingentity.h"
-#include <QTimer>
 #include <maincontroller.h>
-#include <QList>
-#include <QListIterator>
-#include <typeinfo>
 #include <playerentity.h>
+#include <QTimer>
+#include <QList>
 
 
 class SamouraiWatcher : public QObject, public LivingEntity
@@ -26,7 +24,6 @@ public slots :
 
 public :
     SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth, int watchTime, MainController *value);
-    ~SamouraiWatcher();
     QTimer *getChangeDirectionTimer() const;
     int getStatus() const;
     MainController *getMc() const;

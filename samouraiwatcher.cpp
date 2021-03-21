@@ -1,6 +1,6 @@
 #include "samouraiwatcher.h"
 
-SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth ,int watchTime,MainController *value )
+SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth ,int watchTime, MainController *value )
     : LivingEntity(image, x, y, speed, maxHealth)
 {
     status = -1;
@@ -16,32 +16,27 @@ SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int max
     DetectionTimer->start(10);
 }
 
-SamouraiWatcher::~SamouraiWatcher()
-{
-
-}
-
 
 void SamouraiWatcher::moveDirectionSlot()
 {
     if (status == -1)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaDown"));
+        setPixmap(* new QPixmap(":/Character/SamouraiDown"));
         status = 0;
     }
     else if (status == 0)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaLeft"));
+        setPixmap(* new QPixmap(":/Character/SamouraiLeft"));
         status = 1;
     }
     else if (status == 1)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaUp"));
+        setPixmap(* new QPixmap(":/Character/SamouraiUp"));
         status = 2;
     }
     else if (status == 2)
     {
-        setPixmap(* new QPixmap(":/Character/NinjaRight"));
+        setPixmap(* new QPixmap(":/Character/SamouraiRight"));
         status = -1;
     }  
 }
@@ -50,25 +45,13 @@ void SamouraiWatcher::moveDirectionSlot()
 void SamouraiWatcher::detectionPlayerSlot()
 {
     int detectionWide = 65;
-    QList<QGraphicsItem *> listItems = mc->getScene()->items();
-    int playerX = 0;
-    int playerY = 0;
-    int samouraiX = 0;
-    int samouraiY = 0;
+    int samouraiX = x();
+    int samouraiY = y();
 
-    for (int i = 0; i < listItems.length(); i++)
-    {
-        if(listItems[i]->type() == 66004)
-        {
-            playerX = listItems[i]->x();
-            playerY = listItems[i]->y();
-        }
-        if(listItems[i]->type() == 66008)
-        {
-            samouraiX = listItems[i]->x();
-            samouraiY = listItems[i]->y();
-        }
-    }
+    int *coords = mc->getPlayerCoords();
+
+    int playerX = coords[0];
+    int playerY = coords[1];
 
     if (status == 0)
     {

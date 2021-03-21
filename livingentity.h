@@ -10,7 +10,6 @@ private:
     int health;
 public:
     LivingEntity(QString image, int x, int y, double speed, int maxHealth);
-    ~LivingEntity();
     int getMaxHealth() const;
     void setMaxHealth(int value);
     int getHealth() const;

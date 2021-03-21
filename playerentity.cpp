@@ -5,6 +5,7 @@
 #include "blockentity.h"
 #include "warpentity.h"
 #include "pickableentity.h"
+#include "gateentity.h"
 
 PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(image, x, y, speed, maxHealth)
@@ -28,22 +29,6 @@ PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHea
     collisionTimer = new QTimer();
     QObject::connect(collisionTimer, SIGNAL(timeout()), this, SLOT(collisionSlot()));
     collisionTimer->start(10);
-}
-
-PlayerEntity::~PlayerEntity()
-{
-    moveUTimer->stop();
-    moveDTimer->stop();
-    moveLTimer->stop();
-    moveRTimer->stop();
-    collisionTimer->stop();
-
-    delete moveUTimer;
-    delete moveDTimer;
-    delete moveLTimer;
-    delete moveRTimer;
-    delete collisionTimer;
-
 }
 
 void PlayerEntity::keyPressEvent(QKeyEvent *event){
@@ -158,7 +143,8 @@ void PlayerEntity::collision(int direction){
             QTimer::singleShot(1500, this, SLOT(deathSlot()));
         }
 
-        else if(item->type() == WARPENTITY){
+        else if(item->type() == WARPENTITY)
+        {
             mc->getInventory()->pushTemp();
             mc->getInventory()->clearTemp();
             mc->loadMap(((WarpEntity *)item)->getId(), ((WarpEntity *)item)->getDx(), ((WarpEntity *)item)->getDy());
@@ -169,8 +155,26 @@ void PlayerEntity::collision(int direction){
             mc->getInventory()->addTempValue(((PickableEntity *)item)->getKey());
             delete item;
         }
+        else if(item->type() == GATEENTITY)
+        {
+            if(mc->getInventory()->getValuePickable(((GateEntity *)item)->getKey()) >= 1)
+            {
+                QPixmap openedDoorImage(":/Terrain/DoorOpen");
+                ((GateEntity *)item)->setPixmap(openedDoorImage);
+                ((GateEntity *)item)->setOpened(true);
+                qDebug() << ((GateEntity *)item)->getDx();
+                qDebug() << ((GateEntity *)item)->getDy();
+                mc->loadMap(((GateEntity *)item)->getId(), ((GateEntity *)item)->getDx(), ((GateEntity *)item)->getDy());
+            }
+            else
+            {
+                if(direction == L) moveRight();
+                else if(direction == R) moveLeft();
+                else if(direction == U) moveDown();
+                else if(direction == D) moveUp();
+            }
+        }
     }
-
 }
 
 MainController *PlayerEntity::getMc() const

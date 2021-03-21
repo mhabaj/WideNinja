@@ -6,22 +6,23 @@
 #include "playerentity.h"
 #include "pickableentity.h"
 #include "samouraiwatcher.h"
+#include "gateentity.h"
+#include "followingentity.h"
 
 
 #include "maincontroller.h"
 
-MainController::MainController():
+MainController::MainController(QString workingDirectory):
     QObject()
 {
     scene = new QGraphicsScene(0,0,640,640);
-
+    appWorkingDirectory = workingDirectory;
     view = new QGraphicsView();
-    fm = new FileManager();
+    fm = new FileManager(workingDirectory);
     view->setScene(scene);
     view->show();
 
-    loadMap(0, 10, 18);
-    currentLevel = 0;
+    loadMap(1, 10, 18);
     inventory = new PlayerInventory();
 }
 
@@ -40,12 +41,23 @@ QGraphicsScene *MainController::getScene() const
     return scene;
 }
 
-void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
+QString MainController::getWorkingDirectory() const
+{
+    return appWorkingDirectory;
+}
+
+void MainController::setWorkingDirectory(const QString &value)
+{
+    appWorkingDirectory = value;
+}
+
+void MainController::loadMap(QList<QList<QString>> map, int dx, int dy)
+{
     startX = dx;
     startY = dy;
-
+    
     scene->clear();
-
+    
     scene->addItem(new PlayerEntity(":/Character/NinjaRight", dx, dy, 3, 3, this));
 
     QListIterator<QList<QString>> iterator(map);
@@ -64,13 +76,19 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
         else if(infos[0] == "PATHMONSTERENTITY"){
             scene->addItem(new PathMonsterEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), infos[6]));
         }
+        else if(infos[0] == "SAMOURAIWATCHER"){
+            scene->addItem(new SamouraiWatcher(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), infos[6].toInt(), this));
+        }
         else if(infos[0] == "PICKABLEENTITY"){
             scene->addItem(new PickableEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4]));
         }
-
+        else if(infos[0] == "GATEENTITY"){
+            scene->addItem(new GateEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toInt(), infos[5].toInt(), infos[6].toInt(), infos[7]));
+        }
+        else if(infos[0] == "FOLLOWINGENTITY"){
+            scene->addItem(new FollowingEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), this));
+        }
     }
-    scene->addItem(new SamouraiWatcher(":Character/NinjaRight", 9, 9, 0, 1, 5,this));
-
 
     view->viewport()->update();
 }
@@ -78,37 +96,67 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy){
 void MainController::loadMap(int id, int dx, int dy){
     currentLevel = id;
 
-    if(id == 0){
-        QList<QList<QString>> map;
+    QList<QList<QString>> map;
 
+    map= fm->loadDefaultMap(currentLevel);
+    loadMap(map, dx, dy);
+}
 
-        map= fm->loadDefaultMap(currentLevel);
-        loadMap(map, dx, dy);
+int ** MainController::getCollisionMap(){
+
+    int** collisionMap = 0;
+    collisionMap = new int*[20];
+
+    for (int h = 0; h < 20; h++)
+    {
+        collisionMap[h] = new int[20];
+
+        for (int w = 0; w < 20; w++)
+        {
+              collisionMap[h][w] = 0;
+        }
     }
-    if(id == 1){
-        QList<QList<QString>> map;
 
+    QListIterator<QGraphicsItem *> ite(scene->items());
 
-        map= fm->loadDefaultMap(currentLevel);
+    while(ite.hasNext()){
+        QGraphicsItem *item = ite.next();
 
+        if(item->type() == 66003 || item->type() == 66006 || item->type() == 66008){
+            int x = item->x()/PIXELS;
+            int y = item->y()/PIXELS;
 
-        loadMap(map, dx, dy);
+            collisionMap[x][y] = 1;
+        }
     }
-    if(id == 2){
-        QList<QList<QString>> map;
 
+    return collisionMap;
+}
 
-        map= fm->loadDefaultMap(currentLevel);
+int * MainController::getPlayerCoords()
+{
+    int *coords = new int[2];
 
-        loadMap(map, dx, dy);
+    QListIterator<QGraphicsItem *> ite(getScene()->items());
+
+    while(ite.hasNext()){
+        QGraphicsItem *item = ite.next();
+
+        if(item->type() == 66004)
+        {
+            coords[0] = item->x();
+            coords[1] = item->y();
+            break;
+        }
     }
+
+    return coords;
 }
 
 int MainController::getCurrentLevel() const
 {
     return currentLevel;
 }
-
 
 PlayerInventory *MainController::getInventory() const
 {
