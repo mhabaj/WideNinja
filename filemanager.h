@@ -12,8 +12,8 @@ class FileManager
 
 private:
     QList<QFile> savedPlayerProfil;
-    const QString defaultMapFolderPath = ":/Map/";
-    const QString customPlayerSaveFilePath = ":/Map/";
+    const QString defaultMapFolderPath = "E:/Qt_Projects/WideNinja/assets/Map/";
+    const QString customPlayerSaveFilePath = "E:/Qt_Projects/WideNinja/assets/";
 public:
     FileManager();
 

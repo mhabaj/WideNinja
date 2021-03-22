@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     blockentity.cpp \
     entity.cpp \
+    followingentity.cpp \
     gateentity.cpp \
     livingentity.cpp \
     main.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
 HEADERS += \
     blockentity.h \
     entity.h \
+    followingentity.h \
     gateentity.h \
     livingentity.h \
     maincontroller.h \

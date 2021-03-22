@@ -1,6 +1,6 @@
 #include "samouraiwatcher.h"
 
-SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth ,int watchTime,MainController *value )
+SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth ,int watchTime, MainController *value )
     : LivingEntity(image, x, y, speed, maxHealth)
 {
     status = -1;
@@ -44,57 +44,89 @@ void SamouraiWatcher::moveDirectionSlot()
 
 void SamouraiWatcher::detectionPlayerSlot()
 {
-    int detectionWide = 65;
-    QList<QGraphicsItem *> listItems = mc->getScene()->items();
-    int playerX = 0;
-    int playerY = 0;
-    int samouraiX = 0;
-    int samouraiY = 0;
+    int detectionWide = 96;
+    bool obstacle = false;
+    int samouraiX = x();
+    int samouraiY = y();
 
-    for (int i = 0; i < listItems.length(); i++)
+    int** collisionMap = mc->getCollisionMap();
+    int *coords = mc->getPlayerCoords();
+
+    int playerX = coords[0]+16;
+    int playerY = coords[1]+16;
+
+   /* for(int i = 0; i< 20 ; i++)
     {
-        if(listItems[i]->type() == 66004)
+        QString tmp = "";
+        for (int j = 0; j <20 ;j ++)
         {
-            playerX = listItems[i]->x();
-            playerY = listItems[i]->y();
+            tmp += QString::number(collisionMap[j][i]);
         }
-        if(listItems[i]->type() == 66008)
-        {
-            samouraiX = listItems[i]->x();
-            samouraiY = listItems[i]->y();
-        }
-    }
+        qDebug() << tmp;
+    }*/
 
     if (status == 0)
     {
         if(playerX > samouraiX - (detectionWide/2) && playerX < samouraiX + (detectionWide/2)
                 &&  playerY > samouraiY && playerY <= 600)
         {
-            qDebug() << "Je te vois ! Cours rouqin ! DOWN";
+            for(int xCollision = (samouraiY/32) + 1; xCollision < playerY/32 ; xCollision++ )
+            {
+
+                if( collisionMap[playerX/32][xCollision] == 1)
+                    obstacle = true ;
+            }
+
+            if( obstacle == false)
+                qDebug() << "Je te vois ! Cours rouqin ! DOWN";
         }
     }
     else if (status == 1)
     {
         if(playerY > samouraiY - (detectionWide/2) && playerY < samouraiY + (detectionWide/2)
-                &&  playerX < samouraiY && playerY >= 0)
+                &&  playerX < samouraiY && playerX > 0)
         {
-            qDebug() << "Je te vois ! Cours rouqin ! LEFT";
+            for(int yCollision = (samouraiX/32)-1 ; yCollision > playerX/32 ; yCollision-- )
+            {
+                if(collisionMap[yCollision][playerY/32] == 1)
+                    obstacle = true ;
+            }
+
+            if( obstacle == false)
+                qDebug() << "Je te vois ! Cours rouqin ! LEFT";
         }
     }
     else if (status == 2)
     {
         if(playerX > samouraiX - (detectionWide/2) && playerX < samouraiX + (detectionWide/2)
-                &&  playerX < samouraiY && playerY >= 0)
+                &&  playerY < samouraiY && playerY >= 0)
         {
-            qDebug() << "Je te vois ! Cours rouqin ! UP ";
+            for(int xCollision = (samouraiY/32) - 1; xCollision > playerY/32 ; xCollision-- )
+            {
+
+                if(collisionMap[playerX/32][xCollision] == 1)
+                    obstacle = true ;
+            }
+
+            if( obstacle == false)
+                qDebug() << "Je te vois ! Cours rouqin ! UP ";
+            else
+                qDebug() << "STEAKHACHE";
         }
     }
     else if (status == -1)
     {
         if(playerY > samouraiY - (detectionWide/2) && playerY < samouraiY + (detectionWide/2)
-                &&  playerX > samouraiX && playerX <= 600)
+                &&  playerX > samouraiX +15 && playerX <= 600)
         {
-            qDebug() << "Je te vois ! Cours rouqin ! RIGHT ";
+            for(int yCollision = (samouraiX/32)+1 ; yCollision < playerX/32 ; yCollision++ )
+            {
+                if(collisionMap[yCollision][playerY/32] == 1)
+                    obstacle = true ;
+            }
+
+            if( obstacle == false)
+                qDebug() << "Je te vois ! Cours rouqin ! RIGHT ";
         }
     }
 
