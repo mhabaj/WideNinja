@@ -205,8 +205,8 @@ int FollowingEntity::nextMove()
 
     int *ac = mc->getPlayerCoords();
 
-    arrivee.x = ac[0]/32;
-    arrivee.y = ac[1]/32;
+    arrivee.x = (ac[0]+16)/32;
+    arrivee.y = (ac[1]+16)/32;
 
     dx = x()/32;
     dy = y()/32;

@@ -129,7 +129,7 @@ void PlayerEntity::collision(int direction){
             else if(direction == D) moveUp();
         }
 
-        else if(item->type() == PATHMONSTERENTITY){
+        else if(item->type() == PATHMONSTERENTITY || item->type() == FOLLOWINGENTITY){
             isDead = true;
 
             if(moveLTimer->isActive()) moveLTimer->stop();
