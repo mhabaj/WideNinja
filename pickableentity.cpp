@@ -1,8 +1,10 @@
 #include "pickableentity.h"
 
 PickableEntity::PickableEntity(QString image, int x, int y, QString key)
-    : Entity(image, x, y)
+    : Entity(x, y)
 {
+    pix = new QPixmap(image);
+    setPixmap(*pix);
     setKey(key);
 }
 
@@ -24,5 +26,10 @@ bool PickableEntity::getPicked() const
 void PickableEntity::setPicked(bool value)
 {
     picked = value;
+}
+
+PickableEntity::~PickableEntity()
+{
+    delete pix;
 }
 

@@ -31,7 +31,8 @@ public slots :
     void detectionPlayerSlot();
 
 public :
-    SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth, QString path, MainController *value);
+    SamouraiWatcher(int x, int y, int speed, int maxHealth, QString path, MainController *value);
+    ~SamouraiWatcher();
     QTimer *getChangeDirectionTimer() const;
     int getStatus() const;
     MainController *getMc() const;

@@ -8,9 +8,11 @@ class PickableEntity : public Entity
 private:
     bool picked;
     QString key;
+    QPixmap *pix;
 
 public:
     PickableEntity(QString image, int x, int y, QString key);
+    ~PickableEntity();
 
     QString getKey() const;
     void setKey(QString newKey);

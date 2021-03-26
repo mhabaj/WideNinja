@@ -2,8 +2,8 @@
 
 #include <QPropertyAnimation>
 
-SamouraiWatcher::SamouraiWatcher(QString image, int x, int y, int speed, int maxHealth , QString path, MainController *value )
-    : LivingEntity(image, x, y, speed, maxHealth)
+SamouraiWatcher::SamouraiWatcher(int x, int y, int speed, int maxHealth , QString path, MainController *value )
+    : LivingEntity(x, y, speed, maxHealth)
 {
     time = 0;
     status = -1;
@@ -221,4 +221,17 @@ int SamouraiWatcher::getStatus() const
 QTimer *SamouraiWatcher::getChangeDirectionTimer() const
 {
     return changeDirectionTimer;
+}
+
+SamouraiWatcher::~SamouraiWatcher()
+{
+    delete upPix;
+    delete downPix;
+    delete leftPix;
+    delete rightPix;
+
+    group->stop();
+    delete group;
+
+    delete DetectionTimer;
 }

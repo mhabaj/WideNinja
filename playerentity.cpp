@@ -7,9 +7,24 @@
 #include "pickableentity.h"
 #include "gateentity.h"
 
-PlayerEntity::PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
-    LivingEntity(image, x, y, speed, maxHealth)
+PlayerEntity::PlayerEntity(int x, int y, double speed, int maxHealth, MainController *value):
+    LivingEntity(x, y, speed, maxHealth)
 {
+    upPix = new QPixmap(":/Character/NinjaUp");
+    downPix = new QPixmap(":/Character/NinjaDown");
+    leftPix = new QPixmap(":/Character/NinjaLeft");
+    rightPix = new QPixmap(":/Character/NinjaRight");
+    deathPix = new QPixmap(":/Character/NinjaDead");
+
+    if(x == 18)
+        setPixmap(*leftPix);
+    else if(x == 1)
+        setPixmap(*rightPix);
+    else if(y == 18)
+        setPixmap(*upPix);
+    else if(y == 1)
+        setPixmap(*downPix);
+
     isDead = false;
 
     setMc(value);
@@ -39,8 +54,7 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveUTimer->isActive() || moveDTimer->isActive())
                     setDiag(true);
                 moveLTimer->start(10);
-                QPixmap qpm(":/Character/NinjaLeft");
-                setPixmap(qpm);
+                setPixmap(*leftPix);
             }
         }
         else if(event->key() == Qt::Key_Right)
@@ -49,8 +63,7 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveUTimer->isActive() || moveDTimer->isActive())
                     setDiag(true);
                 moveRTimer->start(10);
-                QPixmap qpm(":/Character/NinjaRight");
-                setPixmap(qpm);
+                setPixmap(*rightPix);
             }
         }
         else if(event->key() == Qt::Key_Up)
@@ -59,9 +72,7 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveRTimer->isActive() || moveLTimer->isActive())
                     setDiag(true);
                 moveUTimer->start(10);
-                QPixmap qpm(":/Character/NinjaUp");
-
-                setPixmap(qpm);
+                setPixmap(*upPix);
             }
         }
         else if(event->key() == Qt::Key_Down)
@@ -70,9 +81,7 @@ void PlayerEntity::keyPressEvent(QKeyEvent *event){
                 if(moveRTimer->isActive() || moveLTimer->isActive())
                     setDiag(true);
                 moveDTimer->start(10);
-                QPixmap qpm(":/Character/NinjaDown");
-
-                setPixmap(qpm);
+                setPixmap(*downPix);
             }
         }
     }
@@ -123,10 +132,10 @@ void PlayerEntity::collision(int direction){
         QGraphicsItem *item = collidings.next();
 
         if(item->type() == BLOCKENTITY){
-            if(direction == L) moveRight();
-            else if(direction == R) moveLeft();
-            else if(direction == U) moveDown();
-            else if(direction == D) moveUp();
+            if(direction == L) moveRightSlot();
+            else if(direction == R) moveLeftSlot();
+            else if(direction == U) moveDownSlot();
+            else if(direction == D) moveUpSlot();
         }
 
         else if(item->type() == PATHMONSTERENTITY || item->type() == FOLLOWINGENTITY){
@@ -136,9 +145,8 @@ void PlayerEntity::collision(int direction){
             if(moveRTimer->isActive()) moveRTimer->stop();
             if(moveUTimer->isActive()) moveUTimer->stop();
             if(moveDTimer->isActive()) moveDTimer->stop();
-            QPixmap qpmn(":/Character/NinjaDead");
 
-            setPixmap(qpmn);
+            setPixmap(*deathPix);
 
             QTimer::singleShot(1500, this, SLOT(deathSlot()));
         }
@@ -159,22 +167,65 @@ void PlayerEntity::collision(int direction){
         {
             if(mc->getInventory()->getValuePickable(((GateEntity *)item)->getKey()) >= 1)
             {
-                QPixmap openedDoorImage(":/Terrain/DoorOpen");
-                ((GateEntity *)item)->setPixmap(openedDoorImage);
                 ((GateEntity *)item)->setOpened(true);
-                qDebug() << ((GateEntity *)item)->getDx();
-                qDebug() << ((GateEntity *)item)->getDy();
                 mc->loadMap(((GateEntity *)item)->getId(), ((GateEntity *)item)->getDx(), ((GateEntity *)item)->getDy());
             }
             else
             {
-                if(direction == L) moveRight();
-                else if(direction == R) moveLeft();
-                else if(direction == U) moveDown();
-                else if(direction == D) moveUp();
+                if(direction == L) moveRightSlot();
+                else if(direction == R) moveLeftSlot();
+                else if(direction == U) moveDownSlot();
+                else if(direction == D) moveUpSlot();
             }
         }
     }
+}
+
+void PlayerEntity::moveUpSlot(){
+    if(diag)
+        setPos(x(), y() - getSpeed()/2);
+    else
+        setPos(x(), y() - getSpeed());
+    collision(U);
+}
+
+void PlayerEntity::moveDownSlot(){
+    if(diag)
+        setPos(x(), y() + getSpeed()/2);
+    else
+        setPos(x(), y() + getSpeed());
+    collision(D);
+}
+
+void PlayerEntity::moveLeftSlot(){
+    if(diag)
+        setPos(x() - getSpeed()/2, y());
+    else
+        setPos(x() - getSpeed(), y());
+    collision(L);
+}
+
+void PlayerEntity::moveRightSlot(){
+    if(diag)
+        setPos(x() + getSpeed()/2, y());
+    else
+        setPos(x() + getSpeed(), y());
+    collision(R);
+}
+
+void PlayerEntity::deathSlot(){
+    mc->getInventory()->clearTemp();
+    mc->loadMap(mc->getCurrentLevel(), mc->getStartX(), mc->getStartY());
+}
+
+bool PlayerEntity::getDiag() const
+{
+    return diag;
+}
+
+void PlayerEntity::setDiag(bool value)
+{
+    diag = value;
 }
 
 MainController *PlayerEntity::getMc() const
@@ -187,27 +238,16 @@ void PlayerEntity::setMc(MainController *value)
     mc = value;
 }
 
-void PlayerEntity::moveUpSlot(){
-    moveUp();
-    collision(U);
-}
+PlayerEntity::~PlayerEntity()
+{
+    delete upPix;
+    delete downPix;
+    delete rightPix;
+    delete leftPix;
+    delete deathPix;
 
-void PlayerEntity::moveDownSlot(){
-    moveDown();
-    collision(D);
-}
-
-void PlayerEntity::moveLeftSlot(){
-    moveLeft();
-    collision(L);
-}
-
-void PlayerEntity::moveRightSlot(){
-    moveRight();
-    collision(R);
-}
-
-void PlayerEntity::deathSlot(){
-    mc->getInventory()->clearTemp();
-    mc->loadMap(mc->getCurrentLevel(), mc->getStartX(), mc->getStartY());
+    delete moveUTimer;
+    delete moveDTimer;
+    delete moveLTimer;
+    delete moveRTimer;
 }

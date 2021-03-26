@@ -8,9 +8,11 @@ class WarpEntity: public Entity
 private:
     int id;
     int dx, dy;
+    QPixmap *pix;
 
 public:
     WarpEntity(QString image, int x, int y, int id, int dx, int dy);
+    ~WarpEntity();
 
     int getId() const;
     void setId(int value);

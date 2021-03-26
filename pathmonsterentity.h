@@ -20,7 +20,7 @@ private slots:
     void right();
 
 public:
-    PathMonsterEntity(QString image, int x, int y, double speed, int maxHealth, QString path);
+    PathMonsterEntity(int x, int y, double speed, int maxHealth, QString path);
     ~PathMonsterEntity();
 
     int type() const override
