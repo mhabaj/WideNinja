@@ -20,7 +20,8 @@ private slots:
     void behaviour();
 
 public:
-    FollowingEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value);
+    FollowingEntity(int x, int y, double speed, int maxHealth, MainController *value);
+    ~FollowingEntity();
 
     void follow();
     std::pair<int, int> findNext();

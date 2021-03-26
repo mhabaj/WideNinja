@@ -3,8 +3,8 @@
 #include <QPropertyAnimation>
 #include <QTimer>
 
-FollowingEntity::FollowingEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value):
-    LivingEntity(image, x, y, speed, maxHealth)
+FollowingEntity::FollowingEntity(int x, int y, double speed, int maxHealth, MainController *value):
+    LivingEntity(x, y, speed, maxHealth)
 {
     upPix = new QPixmap(":/Character/SamouraiUp");
     downPix = new QPixmap(":/Character/SamouraiDown");
@@ -205,8 +205,8 @@ int FollowingEntity::nextMove()
 
     int *ac = mc->getPlayerCoords();
 
-    arrivee.x = ac[0]/32;
-    arrivee.y = ac[1]/32;
+    arrivee.x = (ac[0]+16)/32;
+    arrivee.y = (ac[1]+16)/32;
 
     dx = x()/32;
     dy = y()/32;
@@ -259,8 +259,15 @@ int FollowingEntity::nextMove()
         else if(dx == coord.first && dy - coord.second == 1){
             return U;
         }
-
     }else{
         return -1;
     }
+}
+
+FollowingEntity::~FollowingEntity()
+{
+    delete upPix;
+    delete downPix;
+    delete rightPix;
+    delete leftPix;
 }

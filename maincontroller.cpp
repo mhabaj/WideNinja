@@ -18,10 +18,29 @@ MainController::MainController(QString workingDirectory):
     scene = new QGraphicsScene(0,0,640,640);
     appWorkingDirectory = workingDirectory;
     view = new QGraphicsView();
-    fm = new FileManager(workingDirectory);
+    fm = new FileManager(workingDirectory, 4);
+
+//    QList<QList<QString>> map = fm->loadDefaultMap(3);
+
+//    QListIterator<QList<QString>> ite(map);
+
+//    while(ite.hasNext()){
+//        QList<QString> infos = ite.next();
+
+//        if(!infos.isEmpty()){
+//            if(infos[0] == "GATEENTITY"){
+//                map.removeOne(infos);
+//                qDebug() << "c'est bon";
+//            }
+//        }
+//    }
+
+//    map.append({"GATEENTITY", ":/Terrain/DoorClosed", "9", "19", "2", "9", "1", ":/Terrain/DoorOpen", "ForestKey", "1"});
+
+//    fm->saveDefaultMap(map, 3);
+
     view->setScene(scene);
     view->show();
-
     loadMap(1, 10, 18);
     inventory = new PlayerInventory();
 }
@@ -58,7 +77,7 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy)
     
     scene->clear();
     
-    scene->addItem(new PlayerEntity(":/Character/NinjaRight", dx, dy, 3, 3, this));
+    scene->addItem(new PlayerEntity(dx, dy, 3, 3, this));
 
     QListIterator<QList<QString>> iterator(map);
 
@@ -71,22 +90,22 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy)
             scene->addItem(new BlockEntity(infos[1], infos[2].toInt(), infos[3].toInt()));
         }
         else if(infos[0] == "WARPENTITY"){
-            scene->addItem(new WarpEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toInt(),  infos[5].toInt(), infos[6].toInt()));
+            scene->addItem(new WarpEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toInt(), infos[5].toInt(), infos[6].toInt()));
         }
         else if(infos[0] == "PATHMONSTERENTITY"){
-            scene->addItem(new PathMonsterEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), infos[6]));
+            scene->addItem(new PathMonsterEntity(infos[1].toInt(), infos[2].toInt(), infos[3].toDouble(), infos[4].toInt(), infos[5]));
         }
         else if(infos[0] == "SAMOURAIWATCHER"){
-            scene->addItem(new SamouraiWatcher(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), infos[6].toInt(), this));
+            scene->addItem(new SamouraiWatcher(infos[1].toInt(), infos[2].toInt(), infos[3].toDouble(), infos[4].toInt(), infos[5], this));
         }
         else if(infos[0] == "PICKABLEENTITY"){
             scene->addItem(new PickableEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4]));
         }
         else if(infos[0] == "GATEENTITY"){
-            scene->addItem(new GateEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toInt(), infos[5].toInt(), infos[6].toInt(), infos[7]));
+            scene->addItem(new GateEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toInt(), infos[5].toInt(), infos[6].toInt(), infos[7], infos[8], infos[9].toInt()));
         }
         else if(infos[0] == "FOLLOWINGENTITY"){
-            scene->addItem(new FollowingEntity(infos[1], infos[2].toInt(), infos[3].toInt(), infos[4].toDouble(),  infos[5].toInt(), this));
+            scene->addItem(new FollowingEntity(infos[1].toInt(), infos[2].toInt(), infos[3].toDouble(), infos[4].toInt(), this));
         }
     }
 

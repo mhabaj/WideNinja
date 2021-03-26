@@ -29,7 +29,7 @@ public:
     const int FOLLOWINGENTITY = 66010;
 
 
-    Entity(QString image, int x, int y);
+    Entity(int x, int y);
 
     int type() const override
     {

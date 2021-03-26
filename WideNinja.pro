@@ -23,7 +23,6 @@ SOURCES += \
     livingentity.cpp \
     main.cpp \
     maincontroller.cpp \
-    movableentity.cpp \
     pathmonsterentity.cpp \
     playerentity.cpp \
     samouraiwatcher.cpp \
@@ -39,7 +38,6 @@ HEADERS += \
     gateentity.h \
     livingentity.h \
     maincontroller.h \
-    movableentity.h \
     pathmonsterentity.h \
     playerentity.h \
     samouraiwatcher.h \

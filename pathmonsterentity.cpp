@@ -2,8 +2,8 @@
 
 #include <QPropertyAnimation>
 
-PathMonsterEntity::PathMonsterEntity(QString image, int x, int y, double speed, int maxHealth, QString path):
-    LivingEntity(image, x, y, speed, maxHealth)
+PathMonsterEntity::PathMonsterEntity(int x, int y, double speed, int maxHealth, QString path):
+    LivingEntity(x, y, speed, maxHealth)
 {
     upPix = new QPixmap(":/Character/WolfUp");
     downPix = new QPixmap(":/Character/WolfDown");
@@ -108,6 +108,11 @@ void PathMonsterEntity::right(){
 }
 
 PathMonsterEntity::~PathMonsterEntity(){
+    delete upPix;
+    delete downPix;
+    delete leftPix;
+    delete rightPix;
+
     group->stop();
     delete group;
 }

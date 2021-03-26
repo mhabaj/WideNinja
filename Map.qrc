@@ -3,5 +3,6 @@
         <file alias="0">assets/Map/0.map</file>
         <file alias="1">assets/Map/1.map</file>
         <file alias="2">assets/Map/2.map</file>
+        <file alias="3">assets/Map/3.map</file>
     </qresource>
 </RCC>

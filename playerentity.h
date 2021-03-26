@@ -12,6 +12,7 @@ class PlayerEntity: public QObject, public LivingEntity
     Q_OBJECT
 
 private:
+    QPixmap *upPix, *downPix, *leftPix, *rightPix, *deathPix;
     QTimer *moveUTimer;
     QTimer *moveDTimer;
     QTimer *moveLTimer;
@@ -21,6 +22,7 @@ private:
     MainController *mc;
 
     bool isDead;
+    bool diag;
 
 public slots:
     void moveUpSlot();
@@ -31,19 +33,23 @@ public slots:
     void deathSlot();
 
 public:
-    PlayerEntity(QString image, int x, int y, double speed, int maxHealth, MainController *value);
+    PlayerEntity(int x, int y, double speed, int maxHealth, MainController *value);
+    ~PlayerEntity();
     void collision(int direction);
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
+
+    MainController *getMc() const;
+    void setMc(MainController *value);
+    bool getIsDead() const;
+    void setIsDead(bool value);
+    bool getDiag() const;
+    void setDiag(bool value);
 
     int type() const override
     {
         return PLAYERENTITY;
     }
-    MainController *getMc() const;
-    void setMc(MainController *value);
-    bool getIsDead() const;
-    void setIsDead(bool value);
 };
 
 #endif // PLAYERENTITY_H

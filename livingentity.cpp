@@ -1,8 +1,9 @@
 #include "livingentity.h"
 
-LivingEntity::LivingEntity(QString image, int x, int y, double speed, int maxHealth):
-    MovableEntity(image,x, y, speed)
+LivingEntity::LivingEntity(int x, int y, double speed, int maxHealth):
+    Entity(x, y)
 {
+    setSpeed(speed);
     setMaxHealth(maxHealth);
     setHealth(maxHealth);
 }
@@ -25,4 +26,14 @@ int LivingEntity::getMaxHealth() const
 void LivingEntity::setMaxHealth(int value)
 {
     maxHealth = value;
+}
+
+int LivingEntity::getSpeed() const
+{
+    return speed;
+}
+
+void LivingEntity::setSpeed(int value)
+{
+    speed = value;
 }

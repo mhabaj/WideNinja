@@ -1,11 +1,14 @@
 #include "warpentity.h"
 
 WarpEntity::WarpEntity(QString image, int x, int y, int ind, int dx, int dy)
-    :Entity(image, x, y)
+    :Entity(x, y)
 {
     setId(ind);
     setDx(dx);
     setDy(dy);
+
+    pix = new QPixmap(image);
+    setPixmap(*pix);
 }
 
 int WarpEntity::getDx() const
@@ -36,4 +39,9 @@ int WarpEntity::getId() const
 void WarpEntity::setId(int value)
 {
     id = value;
+}
+
+WarpEntity::~WarpEntity()
+{
+    delete pix;
 }
