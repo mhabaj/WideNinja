@@ -21,6 +21,11 @@ private:
     int currentLevel;
     int startX, startY;
     const int maxMapCount = 3;
+    QList<QList<int>> collisionMap;
+    QTimer *collisionMapTimer;
+
+private slots:
+    void generateCollisionMap();
 
 public:
     void loadMap(QList<QList<QString>> map, int dx, int dy);
@@ -32,8 +37,9 @@ public:
 
     PlayerInventory *getInventory() const;
     void setInventory(PlayerInventory *value);
-    int ** getCollisionMap();
-    int * getPlayerCoords();
+    void clearCollisionMap();
+    QList<QList<int>> getCollisionMap();
+    QPair<int, int> getPlayerCoords();
     int getCurrentLevel() const;
     int getStartX() const;
     int getStartY() const;

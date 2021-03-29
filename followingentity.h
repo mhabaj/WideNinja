@@ -3,6 +3,7 @@
 
 #include "livingentity.h"
 #include "maincontroller.h"
+#include <QPropertyAnimation>
 
 class FollowingEntity: public QObject, public LivingEntity
 {
@@ -15,6 +16,8 @@ private:
     QPixmap *upPix, *downPix, *rightPix, *leftPix;
     int dx;
     int dy;
+    QPropertyAnimation *xAnim;
+    QPropertyAnimation *yAnim;
 
 private slots:
     void behaviour();
@@ -24,13 +27,14 @@ public:
     ~FollowingEntity();
 
     void follow();
-    std::pair<int, int> findNext();
+    QPair<int, int> findNext();
 
     void moveTowardsPlayer();
     void moveUp();
     void moveDown();
     void moveLeft();
     void moveRight();
+    void idle();
 
     int type() const override
     {

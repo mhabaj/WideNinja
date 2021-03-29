@@ -6,11 +6,21 @@
 FollowingEntity::FollowingEntity(int x, int y, double speed, int maxHealth, MainController *value):
     LivingEntity(x, y, speed, maxHealth)
 {
-    upPix = new QPixmap(":/Character/SamouraiUp");
-    downPix = new QPixmap(":/Character/SamouraiDown");
-    rightPix = new QPixmap(":/Character/SamouraiRight");
-    leftPix = new QPixmap(":/Character/SamouraiLeft");
+    upPix = new QPixmap(":/Character/WargUp");
+    downPix = new QPixmap(":/Character/WargDown");
+    rightPix = new QPixmap(":/Character/WargRight");
+    leftPix = new QPixmap(":/Character/WargLeft");
     mc = value;
+
+
+    yAnim = new QPropertyAnimation(this, "y");
+    QObject::connect(yAnim, SIGNAL(finished()), this, SLOT(behaviour()));
+    yAnim->setDuration(1000/getSpeed());
+
+    xAnim = new QPropertyAnimation(this, "x");
+    QObject::connect(xAnim, SIGNAL(finished()), this, SLOT(behaviour()));
+    xAnim->setDuration(1000/getSpeed());
+
     behaviour();
 }
 
@@ -27,46 +37,43 @@ void FollowingEntity::moveTowardsPlayer()
     else if(dir == D) moveDown();
     else if(dir == R) moveRight();
     else if(dir == L) moveLeft();
+    else{
+        idle();
+    }
 }
 
 void FollowingEntity::moveUp()
 {
     setPixmap(*upPix);
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
-    animation->setDuration(1000/getSpeed());
-    animation->setEndValue(y()-PIXELS);
-    animation->start();
+    yAnim->setEndValue(y()-PIXELS);
+    yAnim->start();
 }
 
 void FollowingEntity::moveDown()
 {
     setPixmap(*downPix);
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "y");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
-    animation->setDuration(1000/getSpeed());
-    animation->setEndValue(y()+PIXELS);
-    animation->start();
+    yAnim->setEndValue(y()+PIXELS);
+    yAnim->start();
 }
 
 void FollowingEntity::moveLeft()
 {
     setPixmap(*leftPix);
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
-    animation->setDuration(1000/getSpeed());
-    animation->setEndValue(x()-PIXELS);
-    animation->start();
+    xAnim->setEndValue(x()-PIXELS);
+    xAnim->start();
 }
 
 void FollowingEntity::moveRight()
 {
     setPixmap(*rightPix);
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "x");
-    QObject::connect(animation, SIGNAL(finished()), this, SLOT(behaviour()));
-    animation->setDuration(1000/getSpeed());
-    animation->setEndValue(x()+PIXELS);
-    animation->start();
+    xAnim->setEndValue(x()+PIXELS);
+    xAnim->start();
+}
+
+void FollowingEntity::idle(){
+    setPixmap(*downPix);
+    yAnim->setEndValue(y());
+    yAnim->start();
 }
 
 //////////TEST//////////
@@ -75,14 +82,14 @@ void FollowingEntity::moveRight()
 
 struct noeud{
     float cout_g, cout_h, cout_f;
-    std::pair<int,int> parent;    // 'adresse' du parent (qui sera toujours dans la map fermée)
+    QPair<int,int> parent;    // 'adresse' du parent (qui sera toujours dans la map fermée)
 };
 
 struct point{
     int x,y;
 };
 
-typedef std::map< std::pair<int,int>, noeud> l_noeud;
+typedef std::map< QPair<int,int>, noeud> l_noeud;
 
 l_noeud liste_fermee;
 l_noeud liste_ouverte;
@@ -94,7 +101,7 @@ float distance(int x1, int y1, int x2, int y2){
     return (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
 }
 
-bool deja_present_dans_liste(std::pair<int,int> n, l_noeud& l){
+bool deja_present_dans_liste(QPair<int,int> n, l_noeud& l){
     l_noeud::iterator i = l.find(n);
     if (i==l.end())
         return false;
@@ -102,7 +109,7 @@ bool deja_present_dans_liste(std::pair<int,int> n, l_noeud& l){
         return true;
 }
 
-void ajouter_cases_adjacentes(std::pair <int,int>& n, int ** collisionMap){
+void ajouter_cases_adjacentes(QPair <int,int>& n, QList<QList<int>> collisionMap){
     noeud tmp;
 
     for (int i=n.first-1; i<=n.first+1; i++){
@@ -120,7 +127,7 @@ void ajouter_cases_adjacentes(std::pair <int,int>& n, int ** collisionMap){
             if (i != n.first && j != n.second) /* diagonale */
                 continue;
 
-            std::pair<int,int> it(i,j);
+            QPair<int,int> it(i,j);
             if (!deja_present_dans_liste(it, liste_fermee)){
                 /* le noeud n'est pas déjà présent dans la liste fermée */
 
@@ -144,16 +151,18 @@ void ajouter_cases_adjacentes(std::pair <int,int>& n, int ** collisionMap){
 
                 }else{
                     /* le noeud n'est pas présent dans la liste ouverte, on l'y ajoute */
-                    liste_ouverte[std::pair<int,int>(i,j)]=tmp;
+                    liste_ouverte[QPair<int,int>(i,j)]=tmp;
                 }
             }
         }
     }
+
+    collisionMap.clear();
 }
 
-std::pair<int,int> meilleur_noeud(l_noeud& l){
+QPair<int,int> meilleur_noeud(l_noeud& l){
     float m_coutf = l.begin()->second.cout_f;
-    std::pair<int,int> m_noeud = l.begin()->first;
+    QPair<int,int> m_noeud = l.begin()->first;
 
     for (l_noeud::iterator i = l.begin(); i!=l.end(); i++)
         if (i->second.cout_f< m_coutf){
@@ -164,7 +173,7 @@ std::pair<int,int> meilleur_noeud(l_noeud& l){
     return m_noeud;
 }
 
-void ajouter_liste_fermee(std::pair<int,int>& p){
+void ajouter_liste_fermee(QPair<int,int>& p){
     noeud& n = liste_ouverte[p];
     liste_fermee[p]=n;
 
@@ -174,19 +183,19 @@ void ajouter_liste_fermee(std::pair<int,int>& p){
     return;
 }
 
-std::pair<int, int> FollowingEntity::findNext()
+QPair<int, int> FollowingEntity::findNext()
 {
     /* l'arrivée est le dernier élément de la liste fermée */
-    noeud& tmp = liste_fermee[std::pair<int, int>(arrivee.x,arrivee.y)];
+    noeud& tmp = liste_fermee[QPair<int, int>(arrivee.x,arrivee.y)];
 
     struct point n;
-    std::pair<int,int> prec;
+    QPair<int,int> prec;
     n.x = arrivee.x;
     n.y = arrivee.y;
     prec.first  = tmp.parent.first;
     prec.second = tmp.parent.second;
 
-    while (prec != std::pair<int,int>(dx,dy)){
+    while (prec != QPair<int,int>(dx,dy)){
         n.x = prec.first;
         n.y = prec.second;
 
@@ -203,10 +212,10 @@ int FollowingEntity::nextMove()
     liste_fermee.clear();
     liste_ouverte.clear();
 
-    int *ac = mc->getPlayerCoords();
+    QPair<int, int> ac = mc->getPlayerCoords();
 
-    arrivee.x = (ac[0]+16)/32;
-    arrivee.y = (ac[1]+16)/32;
+    arrivee.x = (ac.first+16)/32;
+    arrivee.y = (ac.second+16)/32;
 
     dx = x()/32;
     dy = y()/32;
@@ -214,7 +223,7 @@ int FollowingEntity::nextMove()
     depart.parent.first  = dx;
     depart.parent.second = dy;
 
-    std::pair <int,int> courant;
+    QPair<int,int> courant;
 
     /* déroulement de l'algo A* */
 
@@ -245,7 +254,7 @@ int FollowingEntity::nextMove()
 
     /* si la destination est atteinte, on remonte le chemin */
     if ((courant.first == arrivee.x) && (courant.second == arrivee.y)){
-        std::pair<int, int> coord = findNext();
+        QPair<int, int> coord = findNext();
 
         if(dx - coord.first == -1 && dy == coord.second){
             return R;
@@ -270,4 +279,7 @@ FollowingEntity::~FollowingEntity()
     delete downPix;
     delete rightPix;
     delete leftPix;
+
+    delete xAnim;
+    delete yAnim;
 }

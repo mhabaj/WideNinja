@@ -20,6 +20,12 @@ MainController::MainController(QString workingDirectory):
     view = new QGraphicsView();
     fm = new FileManager(workingDirectory, 4);
 
+    clearCollisionMap();
+
+    collisionMapTimer = new QTimer();
+    QObject::connect(collisionMapTimer, SIGNAL(timeout()), this, SLOT(generateCollisionMap()));
+    collisionMapTimer->start(100);
+
 //    QList<QList<QString>> map = fm->loadDefaultMap(3);
 
 //    QListIterator<QList<QString>> ite(map);
@@ -108,7 +114,7 @@ void MainController::loadMap(QList<QList<QString>> map, int dx, int dy)
             scene->addItem(new FollowingEntity(infos[1].toInt(), infos[2].toInt(), infos[3].toDouble(), infos[4].toInt(), this));
         }
     }
-
+    generateCollisionMap();
     view->viewport()->update();
 }
 
@@ -121,20 +127,8 @@ void MainController::loadMap(int id, int dx, int dy){
     loadMap(map, dx, dy);
 }
 
-int ** MainController::getCollisionMap(){
-
-    int** collisionMap = 0;
-    collisionMap = new int*[20];
-
-    for (int h = 0; h < 20; h++)
-    {
-        collisionMap[h] = new int[20];
-
-        for (int w = 0; w < 20; w++)
-        {
-              collisionMap[h][w] = 0;
-        }
-    }
+void MainController::generateCollisionMap(){
+    clearCollisionMap();
 
     QListIterator<QGraphicsItem *> ite(scene->items());
 
@@ -148,14 +142,24 @@ int ** MainController::getCollisionMap(){
             collisionMap[x][y] = 1;
         }
     }
+}
 
+void MainController::clearCollisionMap(){
+    collisionMap.clear();
+
+    for (int loop = 0; loop < 20; loop++)
+    {
+        collisionMap.append({0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+    }
+}
+
+QList<QList<int>> MainController::getCollisionMap(){
     return collisionMap;
 }
 
-int * MainController::getPlayerCoords()
+QPair<int, int> MainController::getPlayerCoords()
 {
-    int *coords = new int[2];
-
+    QPair<int, int> coords;
     QListIterator<QGraphicsItem *> ite(getScene()->items());
 
     while(ite.hasNext()){
@@ -163,8 +167,8 @@ int * MainController::getPlayerCoords()
 
         if(item->type() == 66004)
         {
-            coords[0] = item->x();
-            coords[1] = item->y();
+            coords.first = item->x();
+            coords.second = item->y();
             break;
         }
     }

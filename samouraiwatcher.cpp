@@ -90,7 +90,7 @@ SamouraiWatcher::SamouraiWatcher(int x, int y, int speed, int maxHealth , QStrin
     DetectionTimer = new QTimer();
     QObject::connect(DetectionTimer, SIGNAL(timeout()), this, SLOT(detectionPlayerSlot()));
 
-    DetectionTimer->start(10);
+    DetectionTimer->start(100);
 }
 
 int SamouraiWatcher::getTime() const
@@ -127,7 +127,6 @@ void SamouraiWatcher::right()
     status = -1;
 }
 
-
 void SamouraiWatcher::detectionPlayerSlot()
 {
     int detectionWide = 96;
@@ -135,11 +134,11 @@ void SamouraiWatcher::detectionPlayerSlot()
     int samouraiX = x();
     int samouraiY = y();
 
-    int** collisionMap = mc->getCollisionMap();
-    int *coords = mc->getPlayerCoords();
+    QList<QList<int>> collisionMap = mc->getCollisionMap();
+    QPair<int, int> coords = mc->getPlayerCoords();
 
-    int playerX = coords[0]+16;
-    int playerY = coords[1]+16;
+    int playerX = coords.first+16;
+    int playerY = coords.second+16;
 
     if (status == 0)
     {
@@ -179,7 +178,6 @@ void SamouraiWatcher::detectionPlayerSlot()
         {
             for(int xCollision = (samouraiY/32) - 1; xCollision > playerY/32 ; xCollision-- )
             {
-
                 if(collisionMap[playerX/32][xCollision] == 1)
                     obstacle = true ;
             }
@@ -198,7 +196,7 @@ void SamouraiWatcher::detectionPlayerSlot()
             for(int yCollision = (samouraiX/32)+1 ; yCollision < playerX/32 ; yCollision++ )
             {
                 if(collisionMap[yCollision][playerY/32] == 1)
-                    obstacle = true ;
+                    obstacle = true;
             }
 
             if( obstacle == false)
@@ -206,6 +204,7 @@ void SamouraiWatcher::detectionPlayerSlot()
         }
     }
 
+    collisionMap.clear();
 }
 
 MainController *SamouraiWatcher::getMc() const

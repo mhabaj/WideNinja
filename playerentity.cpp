@@ -43,7 +43,7 @@ PlayerEntity::PlayerEntity(int x, int y, double speed, int maxHealth, MainContro
 
     collisionTimer = new QTimer();
     QObject::connect(collisionTimer, SIGNAL(timeout()), this, SLOT(collisionSlot()));
-    collisionTimer->start(10);
+    collisionTimer->start(100);
 }
 
 void PlayerEntity::keyPressEvent(QKeyEvent *event){
@@ -182,35 +182,43 @@ void PlayerEntity::collision(int direction){
 }
 
 void PlayerEntity::moveUpSlot(){
-    if(diag)
-        setPos(x(), y() - getSpeed()/2);
-    else
-        setPos(x(), y() - getSpeed());
-    collision(U);
+    if(y() > 0){
+        if(diag)
+            setPos(x(), y() - getSpeed()/2);
+        else
+            setPos(x(), y() - getSpeed());
+        collision(U);
+    }
 }
 
 void PlayerEntity::moveDownSlot(){
-    if(diag)
-        setPos(x(), y() + getSpeed()/2);
-    else
-        setPos(x(), y() + getSpeed());
-    collision(D);
+    if(y() < 608){
+        if(diag)
+            setPos(x(), y() + getSpeed()/2);
+        else
+            setPos(x(), y() + getSpeed());
+        collision(D);
+    }
 }
 
 void PlayerEntity::moveLeftSlot(){
-    if(diag)
-        setPos(x() - getSpeed()/2, y());
-    else
-        setPos(x() - getSpeed(), y());
-    collision(L);
+    if(x() > 0){
+        if(diag)
+            setPos(x() - getSpeed()/2, y());
+        else
+            setPos(x() - getSpeed(), y());
+        collision(L);
+    }
 }
 
 void PlayerEntity::moveRightSlot(){
-    if(diag)
-        setPos(x() + getSpeed()/2, y());
-    else
-        setPos(x() + getSpeed(), y());
-    collision(R);
+    if(x() < 608){
+        if(diag)
+            setPos(x() + getSpeed()/2, y());
+        else
+            setPos(x() + getSpeed(), y());
+        collision(R);
+    }
 }
 
 void PlayerEntity::deathSlot(){

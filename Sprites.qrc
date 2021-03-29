@@ -13,6 +13,10 @@
         <file alias="WolfLeft">Sprites/Characters/Wolf/WolfLeft.png</file>
         <file alias="WolfRight">Sprites/Characters/Wolf/WolfRight.png</file>
         <file alias="WolfUp">Sprites/Characters/Wolf/WolfUp.png</file>
+        <file alias="WargDown">Sprites/Characters/Warg/WargDown.png</file>
+        <file alias="WargLeft">Sprites/Characters/Warg/WargLeft.png</file>
+        <file alias="WargRight">Sprites/Characters/Warg/WargRight.png</file>
+        <file alias="WargUp">Sprites/Characters/Warg/WargUp.png</file>
     </qresource>
     <qresource prefix="/Background">
         <file alias="ForestFloor">Sprites/Background/ForestFloor.png</file>
